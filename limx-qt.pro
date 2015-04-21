@@ -1,14 +1,15 @@
 TEMPLATE = app
 TARGET = limx-qt
 macx:TARGET = "limx-qt"
-VERSION = 0.9.1.2
-INCLUDEPATH += src src/json src/qt
-QT += core gui network
+VERSION = 0.9.1.3
+INCLUDEPATH += src src/json src/qt src/qt/plugins/mrichtexteditor
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
+DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE BOOST_SPIRIT_THREADSAFE BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN __NO_SYSTEM_INCLUDES
+QT += core gui network
 CONFIG += no_include_pwd
 CONFIG += thread
 CONFIG += static
+QMAKE_CXXFLAGS = -fpermissive
 
 # for boost 1.37, add -mt to the boost libraries
 # use: qmake BOOST_LIB_SUFFIX=-mt
@@ -24,7 +25,7 @@ CONFIG += static
 ##############################################
 # Guide by Limx.dev - Christian Knoepke
 # https://bitcointalk.org/index.php?topic=149479.0
-# Compielier unter Mysys Shell
+# Win 32 Mysys Shell
 # cd /C/Limecoinx-master/src/leveldb
 # TARGET_OS=NATIVE_WINDOWS make libleveldb.a libmemenv.a
 # Dos Shell
@@ -36,18 +37,27 @@ CONFIG += static
 # mingw32-make -f Makefile.Release
 ##############################################
 
+win32 {
+windows:LIBS += -lshlwapi
+LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
+LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
+windows:LIBS += -lws2_32 -lole32 -loleaut32 -luuid -lgdi32
+LIBS += -lboost_system-mgw49-mt-s-1_55 -lboost_filesystem-mgw49-mt-s-1_55 -lboost_program_options-mgw49-mt-s-1_55 -lboost_thread-mgw49-mt-s-1_55
 BOOST_LIB_SUFFIX=-mgw49-mt-s-1_55
 BOOST_INCLUDE_PATH=C:/deps/boost_1_55_0
 BOOST_LIB_PATH=C:/deps/boost_1_55_0/stage/lib
 BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
 BDB_LIB_PATH=C:/deps/db-4.8.30.NC/build_unix
-OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.1j/include
-OPENSSL_LIB_PATH=C:/deps/openssl-1.0.1j
+OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.2/include
+OPENSSL_LIB_PATH=C:/deps/openssl-1.0.2
+# ./Configure no-zlib no-shared no-dso no-krb5 no-camellia no-capieng no-cast no-dtls1 no-gost no-gmp no-heartbeats no-idea no-jpake no-md2 no-mdc2 no-rc5 no-rdrand no-rfc3779 no-rsax no-sctp no-seed no-sha0 no-static_engine no-whirlpool no-rc2 no-rc4 no-ssl2 no-ssl3 mingw
 MINIUPNPC_INCLUDE_PATH=C:/deps/
 MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
+LIBPNG_INCLUDE_PATH=d:/deps/libpng-1.6.12
+LIBPNG_LIB_PATH=d:/deps/libpng-1.6.12/.libs
 QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.4
 QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.4/.libs
-
+}
 
 OBJECTS_DIR = build
 MOC_DIR = build
@@ -55,10 +65,10 @@ UI_DIR = build
 
 # use: qmake "RELEASE=1"
 contains(RELEASE, 1) {
-    # Mac: compile for maximum compatibility (10.5, 32-bit)
-    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
-    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
-    macx:QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
+    # Mac: compile for maximum compatibility (10.6)
+    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
+    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
+    macx:QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
 
     !win32:!macx {
         # Linux: static link and extra security (see: https://wiki.debian.org/Hardening)
@@ -77,10 +87,10 @@ contains(RELEASE, 1) {
 QMAKE_CXXFLAGS *= -D_FORTIFY_SOURCE=2
 # for extra security on Windows: enable ASLR and DEP via GCC linker flags
 win32:QMAKE_LFLAGS *= -Wl,--dynamicbase -Wl,--nxcompat
-# on Windows: enable GCC large address aware linker flag
+# on win32: enable GCC large address aware linker flag
 win32:QMAKE_LFLAGS *= -Wl,--large-address-aware -static
-# i686-w64-mingw32
-win32:QMAKE_LFLAGS *= -static-libgcc -static-libstdc++
+win32:QMAKE_LFLAGS += -static-libgcc -static-libstdc++
+lessThan(QT_MAJOR_VERSION, 5): win32: QMAKE_LFLAGS *= -static
 
 # use: qmake "USE_QRCODE=1"
 # libqrencode (http://fukuchi.org/works/qrencode/index.en.html) must be installed for support
@@ -224,9 +234,6 @@ HEADERS += src/qt/bitcoingui.h \
     src/qt/transactionfilterproxy.h \
     src/qt/transactionview.h \
     src/qt/walletmodel.h \
-    src/qt/walletview.h \
-    src/qt/walletstack.h \
-    src/qt/walletframe.h \
     src/bitcoinrpc.h \
     src/qt/overviewpage.h \
     src/qt/csvmodelwriter.h \
@@ -263,8 +270,13 @@ HEADERS += src/qt/bitcoingui.h \
     src/sph_cubehash.h \
     src/sph_echo.h \
     src/sph_shavite.h \
-    src/sph_simd.h
-
+    src/sph_simd.h \
+	src/qt/header.h  \
+	src/qt/ActionButton.h \
+    src/qt/QtWaitingSpinner.h \
+	src/qt/chatwindow.h \
+	src/qt/serveur.h 
+	
 SOURCES += src/qt/bitcoin.cpp \
     src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -308,9 +320,6 @@ SOURCES += src/qt/bitcoin.cpp \
     src/qt/transactionfilterproxy.cpp \
     src/qt/transactionview.cpp \
     src/qt/walletmodel.cpp \
-    src/qt/walletview.cpp \
-    src/qt/walletstack.cpp \
-    src/qt/walletframe.cpp \
     src/bitcoinrpc.cpp \
     src/rpcdump.cpp \
     src/rpcnet.cpp \
@@ -334,6 +343,11 @@ SOURCES += src/qt/bitcoin.cpp \
     src/leveldb.cpp \
     src/txdb.cpp \
     src/qt/splashscreen.cpp \
+	src/qt/header.cpp \
+	src/qt/QtWaitingSpinner.cpp \
+	src/qt/ActionButton.cpp \
+	src/qt/chatwindow.cpp \
+	src/qt/serveur.cpp \
     src/blake.c \
     src/bmw.c \
     src/groestl.c \
@@ -346,7 +360,8 @@ SOURCES += src/qt/bitcoin.cpp \
     src/echo.c \
     src/simd.c
 
-RESOURCES += src/qt/bitcoin.qrc
+RESOURCES += src/qt/bitcoin.qrc \
+	src/qt/themes.qrc
 
 FORMS += src/qt/forms/sendcoinsdialog.ui \
     src/qt/forms/coincontroldialog.ui \
@@ -359,8 +374,11 @@ FORMS += src/qt/forms/sendcoinsdialog.ui \
     src/qt/forms/sendcoinsentry.ui \
     src/qt/forms/askpassphrasedialog.ui \
     src/qt/forms/rpcconsole.ui \
-    src/qt/forms/optionsdialog.ui
-
+    src/qt/forms/optionsdialog.ui \
+	src/qt/forms/chatwindow.ui \
+	src/qt/plugins/mrichtexteditor/mrichtextedit.ui \
+	src/qt/forms/Header.ui 
+	
 contains(USE_QRCODE, 1) {
 HEADERS += src/qt/qrcodedialog.h
 SOURCES += src/qt/qrcodedialog.cpp
@@ -412,7 +430,7 @@ OTHER_FILES += README.md \
 # platform specific defaults, if not overridden on command line
 isEmpty(BOOST_LIB_SUFFIX) {
     macx:BOOST_LIB_SUFFIX = -mt
-    win32:BOOST_LIB_SUFFIX = -mgw44-mt-s-1_50
+    win32:BOOST_LIB_SUFFIX = -mgw49-mt-s-1_55
 }
 
 isEmpty(BOOST_THREAD_LIB_SUFFIX) {
