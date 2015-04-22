@@ -67,8 +67,8 @@ public:
      //   vSeeds.push_back(CDNSSeedData("", ""));  //Limxian
      //   vSeeds.push_back(CDNSSeedData("", "")); //coinwall
         vSeeds.push_back(CDNSSeedData("85.214.68.75", "85.214.68.75"));
-    //   vSeeds.push_back(CDNSSeedData("144.76.239.66", "144.76.239.66")); //coinwall
-    //    vSeeds.push_back(CDNSSeedData("108.61.179.50", "108.61.179.50"));  //cointopl
+        vSeeds.push_back(CDNSSeedData("62.221.89.173", "62.221.89.173")); // Aika
+        vSeeds.push_back(CDNSSeedData("198.199.102.165", "198.199.102.165"));  // Rapta Coingahter
     //    vSeeds.push_back(CDNSSeedData("27.192.144.58", "27.192.144.58"));
     //    vSeeds.push_back(CDNSSeedData("212.227.91.190", "212.227.91.190"));  //p2pool.palim.eu
     //    vSeeds.push_back(CDNSSeedData("5.9.39.9", "5.9.39.9"));       //Bchain
@@ -140,7 +140,7 @@ public:
         /*vSeeds.push_back(CDNSSeedData("5.56.209.255", "5.56.209.255"));   //limxdev 04-2015
         vSeeds.push_back(CDNSSeedData("", ""));       //limxdev 04-2015 vSeeds.push_back(CDNSSeedData("limecoinx.qa", "testnet-seed.limecoinx.qa"));
         *///legacy seeders
-        vSeeds.push_back(CDNSSeedData("", ""));      //limxdev 04-2015
+        vSeeds.push_back(CDNSSeedData("85.214.68.75", "85.214.68.75"));      //limxdev 04-2015
         vSeeds.push_back(CDNSSeedData("", ""));      //limxdev 04-2015
         vSeeds.push_back(CDNSSeedData("", ""));       //limxdev 04-2015
 
