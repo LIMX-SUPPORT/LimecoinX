@@ -6,7 +6,10 @@ To Build
 ---------------------
 
 	./autogen.sh
-	./configure --enable-upnp-default --disable-tests
+	./configure \
+	--enable-upnp-default \
+	--disable-tests
+	
 	make
 	
 	src/
