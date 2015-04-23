@@ -6,7 +6,14 @@ To Build
 ---------------------
 
 	./autogen.sh
+<<<<<<< HEAD
 	./configure
+=======
+	./configure \
+	--enable-upnp-default \
+	--disable-tests
+	
+>>>>>>> origin/master
 	make
 
 This will build bitcoin-qt as well if the dependencies are met.
