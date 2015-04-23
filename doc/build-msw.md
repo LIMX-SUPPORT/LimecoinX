@@ -81,3 +81,44 @@ MSYS shell:
 	sh configure
 	mingw32-make
 	strip bitcoind.exe
+	
+	
+-------------------	compiling limx on windows
+	
+./autogen.sh
+
+CPPFLAGS="-I/c/deps/db-4.8.30.NC/build_unix \
+-I/c/deps/openssl-1.0.2/include \
+-I/c/deps \
+-I/c/deps/protobuf-2.5.0/src \
+-I/c/deps/libpng-1.6.14 \
+-I/c/deps/qrencode-3.4.4" \
+LDFLAGS="-L/c/deps/db-4.8.30.NC/build_unix \
+-L/c/deps/openssl-1.0.2 \
+-L/c/deps/miniupnpc \
+-L/c/deps/protobuf-2.5.0/src/.libs \
+-L/c/deps/libpng-1.6.14/.libs \
+-L/c/deps/qrencode-3.4.4/.libs" \
+BOOST_ROOT=/c/deps/boost_1_55_0 \
+./configure \
+--disable-tests \
+--enable-upnp-default \
+--with-qt-incdir=/c/Qt/5.3.2/include \
+--with-qt-libdir=/c/Qt/5.3.2/lib \
+--with-qt-plugindir=/c/Qt/5.3.2/plugins \
+--with-qt-bindir=/c/Qt/5.3.2/bin \
+--with-protoc-bindir=/c/deps/protobuf-2.5.0/src
+
+make
+
+strip src/limecoinx-cli.exe
+strip src/limecoinxd.exe
+strip src/qt/limecoinx-qt.exe	
+	
+	
+	
+	
+	
+	
+	
+	
