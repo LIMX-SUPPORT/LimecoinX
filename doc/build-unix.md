@@ -6,8 +6,14 @@ To Build
 ---------------------
 
 	./autogen.sh
-	./configure
+	./configure --enable-upnp-default --disable-tests
 	make
+	
+	src/
+	strip limecoinxd limecoinx-cli
+
+	src/qt
+	strip limecoinx-qt
 
 This will build bitcoin-qt as well if the dependencies are met.
 
