@@ -91,3 +91,6 @@ qa/pull-tester/build-tests.sh
 
 .cproject
 .project
+*.db
+*.db
+*.db
