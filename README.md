@@ -12,7 +12,7 @@ Release 21.04.2015
 The Version 0.11.X add new function. 
 
 0.11.0 Release notes
-Limecoinx Core 0.11.0 is forked off the Bitcoin Core 0.9.3. The old limecoinx versions 0.9.1.4 were forked from the Litecoin 0.9.1.x tree. The following changes are introduced in this major release. This list is compiled from the release notes of Bitcoin Core 0.9.0, 0.9.1, 0.9.2, 0.9.2.1, 0.9.3 and was completed with the introduced changes to the Limecoinx Core 0.11.0.
+Limecoinx Core 0.11.0 is forked off the Bitcoin Core 0.9.3. The old limecoinx versions 0.9.1.4 was forked from the Litecoin 0.9.1.x tree. The following changes are introduced in this major release. This list is compiled from the release notes of Bitcoin Core 0.9.0, 0.9.1, 0.9.2, 0.9.2.1, 0.9.3 and was completed with the introduced changes to the Limecoinx Core 0.11.0.
 
 Limecoinx Core:
 
@@ -22,7 +22,7 @@ Limecoinx Core:
 - Bumped protocol version to 70075
 - Masternode with 5000 LIMX
 - NEW Reward (50 LIMX /2 * 5 MIN)= 25 LIMX per Miner & 25 LIMX per Masternode or 40/10) 
-- NEW RPC PORT 8800 and NEW P2PPortDefaul 8886
+- NEW RPC PORT 8800 and NEW P2P Port Default 8886
 - Changed testnet address versions 
 - Defined BIP32 (HD) address versions
 - Adapted BIP44 coin type 5 for Limecoinx (0x80000005) as defined in SLIP-0044
@@ -347,7 +347,7 @@ Use the autogen script to prepare the build environment.
 **precompiled binaries**
 
 Precompiled binaries are available at github, see
-https://github.com/limecoinxproject/limecoinx-binaries
+http://sourceforge.net/projects/limx/files/?source=navbar
 
 Always verify the signatures and checksums.
 
