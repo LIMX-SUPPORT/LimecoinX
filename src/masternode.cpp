@@ -241,7 +241,8 @@ void CMasternode::Check()
 
     if(nScanningErrorCount >= MASTERNODE_SCANNING_ERROR_THESHOLD)
     {
-        activeState = MASTERNODE_POS_ERROR;
+        // activeState = MASTERNODE_POS_ERROR; // vorher aktiv
+		LogPrintf("Fehler 6 limxdev");
         return;
     }
 
