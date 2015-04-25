@@ -9,6 +9,8 @@ To Build
 	./configure --enable-upnp-default --disable-tests
 
 	make
+	
+	strip limecoinxd limecoinx-cli limecoinx-qt
 
 This will build bitcoin-qt as well if the dependencies are met.
 

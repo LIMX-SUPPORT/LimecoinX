@@ -39,7 +39,7 @@ Instructions: Homebrew
 
 #### Install dependencies using Homebrew
 
-        brew install autoconf automake libtool boost miniupnpc openssl pkg-config protobuf qt
+        brew install autoconf automake libtool boost miniupnpc openssl pkg-config protobuf qt libqrencode
 
 Note: After you have installed the dependencies, you should check that the Homebrew installed version of OpenSSL is the one available for compilation. You can check this by typing
 
@@ -88,7 +88,7 @@ After exiting, you'll get a warning that the install is keg-only, which means it
 2.  Build limecoinxd:
 
         ./autogen.sh
-        ./configure
+        ./configure --enable-upnp-default --disable-tests
         make
 
 3.  It is a good idea to build and run the unit tests, too:
