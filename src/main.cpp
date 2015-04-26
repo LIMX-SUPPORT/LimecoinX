@@ -1444,7 +1444,7 @@ int64_t GetBlockValue(int nBits, int nHeight, int64_t nFees)
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue)
 {
-    int64_t ret = blockValue/2; // start at 50% LIMX
+    int64_t ret = blockValue / 2; // start at 50% LIMX
 	/*
     if(TestNet()) {
         if(nHeight > 46000)             ret += blockValue / 20; //25% - 2014-10-07
