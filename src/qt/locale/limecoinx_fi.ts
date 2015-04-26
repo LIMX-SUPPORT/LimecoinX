@@ -13,7 +13,7 @@
     </message>
     <message>
         <location filename="../forms/aboutdialog.ui" line="94"/>
-        <source>Copyright &amp;copy; 2009-2014 The Bitcoin Core developers.
+<source>Copyright &amp;copy; 2009-2014 The Bitcoin/DASH Core developers.
 Copyright &amp;copy; 2014-YYYY The Limx Core developers.</source>
         <translation>Tekijänoikeus &amp;copy; 2009-2014 Bitcoin Core kehittäjät.
 Tekijänoikeus &amp;copy; 2014-YYYY Limx Core kehittäjät.</translation>
