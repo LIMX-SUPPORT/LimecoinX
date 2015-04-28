@@ -6,7 +6,7 @@ To Build
 ---------------------
 
 	./autogen.sh
-	./configure --enable-upnp-default --disable-tests
+	./configure
 
 	make
 	
