@@ -91,10 +91,10 @@ public slots:
     void changePassphrase();
     /** Ask for passphrase to unlock wallet temporarily */
     void unlockWallet();
+    /** Lock wallet */
+    void lockWallet();
     /** Open the print paper wallets dialog **/
     void printPaperWallets();
-    /** Lock wallet */
-        void lockWallet();
 
     /** Show used sending addresses */
     void usedSendingAddresses();
