@@ -323,6 +323,8 @@ void BitcoinGUI::createActions(bool fIsTestnet)
     signMessageAction->setStatusTip(tr("Sign messages with your Limecoinx addresses to prove you own them"));
     verifyMessageAction = new QAction(QIcon(":/icons/transaction_0"), tr("&Verify message..."), this);
     verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Limecoinx addresses"));
+    paperWalletAction = new QAction(QIcon(":/icons/print"), tr("&Print paper wallets"), this);
+    paperWalletAction->setStatusTip(tr("Print paper wallets"));
 
     openInfoAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation), tr("&Information"), this);
     openInfoAction->setStatusTip(tr("Show diagnostic information"));
@@ -365,6 +367,7 @@ usedSendingAddressesAction = new QAction(QIcon(":/icons/address-book"), tr("&Sen
         connect(usedSendingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedSendingAddresses()));
         connect(usedReceivingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedReceivingAddresses()));
         connect(openAction, SIGNAL(triggered()), this, SLOT(openClicked()));
+        connect(paperWalletAction, SIGNAL(triggered()), walletFrame, SLOT(printPaperWallets()));
     }
 #endif
 }
@@ -387,6 +390,7 @@ void BitcoinGUI::createMenuBar()
         file->addAction(backupWalletAction);
         file->addAction(signMessageAction);
         file->addAction(verifyMessageAction);
+        file->addAction(paperWalletAction);
         file->addSeparator();
         file->addAction(usedSendingAddressesAction);
         file->addAction(usedReceivingAddressesAction);
@@ -517,6 +521,7 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     usedSendingAddressesAction->setEnabled(enabled);
     usedReceivingAddressesAction->setEnabled(enabled);
     openAction->setEnabled(enabled);
+    paperWalletAction->setEnabled(enabled);
 }
 
 void BitcoinGUI::createTrayIcon(bool fIsTestnet)
