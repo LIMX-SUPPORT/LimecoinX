@@ -15,7 +15,7 @@
         <location filename="../forms/aboutdialog.ui" line="94"/>
         <source>Copyright &amp;copy; 2009-YYYY The Bitcoin and DASH Core developers.
 Copyright &amp;copy; 2014-YYYY The Limx Core developers.</source>
-        <translation>Droits réservés &amp;copy; 2009-2014 The Bitcoin Core developers.
+        <translation>Droits réservés &amp;copy; 2009-YYYY The Bitcoin and Dash Core developers.
 Droits réservés &amp;copy; 2014-YYYY The Limx Core developers.</translation>
     </message>
     <message>
