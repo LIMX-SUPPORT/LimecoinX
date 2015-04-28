@@ -340,3 +340,6 @@ FORMS += \
 
 RESOURCES += \
     ../src/qt/limecoinx.qrc
+
+QT += \
+    printsupport
