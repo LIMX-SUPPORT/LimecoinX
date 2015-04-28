@@ -306,7 +306,8 @@ void PaperWalletDialog::on_printButton_clicked()
         }
 
 
-        WalletModel::UnlockContext ctx(this->model->requestUnlock());
+       // WalletModel::UnlockContext ctx(this->model->requestUnlock());
+        WalletModel::UnlockContext ctx(model->requestUnlock(true));
         if(!ctx.isValid())
         {
             return;
