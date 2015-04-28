@@ -104,8 +104,6 @@ MSYS shell:
 	-L/c/deps/qrencode-3.4.4/.libs" \
 	BOOST_ROOT=/c/deps/boost_1_55_0 \
 	./configure \
-	--disable-tests \
-	--enable-upnp-default \
 	--with-qt-incdir=/c/Qt/5.3.2/include \
 	--with-qt-libdir=/c/Qt/5.3.2/lib \
 	--with-qt-plugindir=/c/Qt/5.3.2/plugins \
