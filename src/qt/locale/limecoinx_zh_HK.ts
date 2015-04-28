@@ -15,8 +15,7 @@
         <location filename="../forms/aboutdialog.ui" line="94"/>
         <source>Copyright &amp;copy; 2009-YYYY The Bitcoin and DASH Core developers.
 Copyright &amp;copy; 2014-YYYY The Limx Core developers.</source>
-        <translation>版權 &amp;copy 為位元幣核心開發人員自西元 2009-2014年所有
-版權 &amp;copy 為暗黑幣核心開發人員自西元 2014-YYYY年所有</translation>
+ <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../forms/aboutdialog.ui" line="111"/>
