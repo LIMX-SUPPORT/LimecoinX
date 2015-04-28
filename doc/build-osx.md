@@ -88,7 +88,7 @@ After exiting, you'll get a warning that the install is keg-only, which means it
 2.  Build limecoinxd:
 
         ./autogen.sh
-        ./configure --enable-upnp-default --disable-tests
+        ./configure
         make
 
 3.  It is a good idea to build and run the unit tests, too:
