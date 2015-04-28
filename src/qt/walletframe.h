@@ -70,9 +70,9 @@ public slots:
     void changePassphrase();
     /** Ask for passphrase to unlock wallet temporarily */
     void unlockWallet();
-    void printPaperWallets();
     /** Lock wallet */
     void lockWallet();
+    void printPaperWallets();
 
     /** Show used sending addresses */
     void usedSendingAddresses();
