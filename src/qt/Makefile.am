@@ -53,6 +53,7 @@ QT_FORMS_UI = \
   forms/openuridialog.ui \
   forms/optionsdialog.ui \
   forms/overviewpage.ui \
+  forms/paperwalletdialog.ui \
   forms/receivecoinsdialog.ui \
   forms/receiverequestdialog.ui \
   forms/rpcconsole.ui \
@@ -103,6 +104,7 @@ QT_MOC_CPP = \
   moc_transactiontablemodel.cpp \
   moc_transactionview.cpp \
   moc_utilitydialog.cpp \
+  moc_verticallabel.cpp \
   moc_walletframe.cpp \
   moc_walletmodel.cpp \
   moc_walletview.cpp
@@ -169,6 +171,7 @@ BITCOIN_QT_H = \
   transactiontablemodel.h \
   transactionview.h \
   utilitydialog.h \
+  verticallabel.h \
   walletframe.h \
   walletmodel.h \
   walletmodeltransaction.h \
@@ -204,6 +207,7 @@ RES_ICONS = \
   res/icons/lock_closed.png \
   res/icons/lock_open.png \
   res/icons/overview.png \
+  res/icons/print.png \
   res/icons/qrcode.png \
   res/icons/quit.png \
   res/icons/receive.png \
@@ -247,6 +251,7 @@ BITCOIN_QT_CPP = \
   splashscreen.cpp \
   trafficgraphwidget.cpp \
   utilitydialog.cpp \
+  verticallabel.cpp \
   winshutdownmonitor.cpp
 
 if ENABLE_WALLET
@@ -274,6 +279,7 @@ BITCOIN_QT_CPP += \
   transactionrecord.cpp \
   transactiontablemodel.cpp \
   transactionview.cpp \
+  verticallabel.cpp \
   walletframe.cpp \
   walletmodel.cpp \
   walletmodeltransaction.cpp \
@@ -284,6 +290,7 @@ RES_IMAGES = \
   res/images/about.png \
   res/images/splash.png \
   res/images/splash_testnet.png \
+  res/images/paper_wallet.png \
   res/images/limecoinx_logo_horizontal.png \
   res/images/drkblue_downArrow.png \
   res/images/drkblue_downArrow_small.png \
