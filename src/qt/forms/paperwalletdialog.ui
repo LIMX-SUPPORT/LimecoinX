@@ -317,7 +317,6 @@ p, li { white-space: pre-wrap; }
  </customwidgets>
  <resources>
   <include location="../limecoinx.qrc"/>
-  <include location="../dogecoin.qrc"/>
  </resources>
  <connections>
   <connection>
