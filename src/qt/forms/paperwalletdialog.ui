@@ -180,7 +180,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Many Wallets?</string>
+    <string>LIMX Wallets?</string>
    </property>
   </widget>
   <widget class="QComboBox" name="walletCount">
@@ -317,7 +317,6 @@ p, li { white-space: pre-wrap; }
  </customwidgets>
  <resources>
   <include location="../limecoinx.qrc"/>
-  <include location="../dogecoin.qrc"/>
  </resources>
  <connections>
   <connection>
