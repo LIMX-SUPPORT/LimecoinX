@@ -337,10 +337,13 @@ public:
     void InitCollateralAddress(){
         std::string strAddress = "";
         if(Params().NetworkID() == CChainParams::MAIN) {
-            strAddress = "Xq19GqFvajRrEdDHYRKGYjTsQfpV5jyipF";
-        } else {
-            strAddress = "y1EZuxhhNMAUofTBEeLqGE1bJrpC2TWRNp";
+            strAddress = "iFoxApoYXNgEsstxaaGtn1NnbvuSL34726";
+        } 
+        /*
+        else {
+            strAddress = "y1EZuxhhNMAUofTBEeLqGE1bJrpC2TWRNp"; // Not used Limxdev 01-05
         }
+        */
         SetCollateralAddress(strAddress);
     }
 
