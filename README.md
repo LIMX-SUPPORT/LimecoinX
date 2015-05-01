@@ -7,6 +7,8 @@ Copyright (c) 2009-2015 Bitcoin Core Developers
 
 Copyright (c) 2014-2015 Dash Core Developers
 
+Copyright (c) 2014 Doge Core Developers
+
 Copyright (c) 2014-2015 LIMX Core Developers
 
 
