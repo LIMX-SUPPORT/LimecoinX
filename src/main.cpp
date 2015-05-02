@@ -1445,6 +1445,7 @@ int64_t GetBlockValue(int nBits, int nHeight, int64_t nFees)
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue)
 {
     int64_t ret = blockValue / 2; // start at 50% LIMX
+    LogPrintf("Zugriff main.cpp 1448 blockValue %u\n", blockValue);
 	/*
     if(TestNet()) {
         if(nHeight > 46000)             ret += blockValue / 20; //25% - 2014-10-07
@@ -1455,6 +1456,7 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue)
         if(nHeight > 46000+((576*1)*5)) ret += blockValue / 20; //50% - 2014-10-12
         if(nHeight > 46000+((576*1)*6)) ret += blockValue / 20; //55% - 2014-10-13
         if(nHeight > 46000+((576*1)*7)) ret += blockValue / 20; //60% - 2014-10-14
+       
     } */
     return ret;
 }
