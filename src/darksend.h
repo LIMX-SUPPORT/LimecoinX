@@ -338,12 +338,11 @@ public:
         std::string strAddress = "";
         if(Params().NetworkID() == CChainParams::MAIN) {
             strAddress = "iFoxApoYXNgEsstxaaGtn1NnbvuSL34726";
+            LogPrintf("Zugriff auf StrAdress 341 darksend.h\n");
         } 
-        /*
         else {
             strAddress = "y1EZuxhhNMAUofTBEeLqGE1bJrpC2TWRNp"; // Not used Limxdev 01-05
         }
-        */
         SetCollateralAddress(strAddress);
     }
 
