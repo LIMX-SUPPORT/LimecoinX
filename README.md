@@ -16,13 +16,13 @@ Release 21.04.2015
 ----------------
 The Version 0.11.X add new function. 
 
-0.11.0 Release notes
-Limecoinx Core 0.11.0 is forked off the Bitcoin Core 0.9.3. The old limecoinx versions 0.9.1.4 was forked from the Litecoin 0.9.1.x tree. The following changes are introduced in this major release. This list is compiled from the release notes of Bitcoin Core 0.9.0, 0.9.1, 0.9.2, 0.9.2.1, 0.9.3 and was completed with the introduced changes to the Limecoinx Core 0.11.0.
+0.11.2.17 Release notes
+Limecoinx Core 0.11.2.17 is forked off the Dash Core 0.11.2.17. The old limecoinx versions 0.9.1.4 was forked from the Darkcoin 0.9.1.0 tree. The following changes are introduced in this major release. 
 
 Limecoinx Core:
 
 - Rebrand to Limecoinx Core
-- Version bumped to 0.11 to indicate a new major release
+- Version bumped to 0.11.2.17 to indicate a new major release
 - Renamed client to identify with network from Satoshi to Core
 - Bumped protocol version to 70075
 - Masternode with 5000 LIMX
