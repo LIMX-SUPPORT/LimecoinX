@@ -1,0 +1,9 @@
+Bitcoin Fork Update
+last 05-05-2015 
+Dash Fork Update 
+last 29-04-2015 by crowing 
+https://github.com/dashpay/dash/commits/master
+Doge Fork Update
+last QT Paperwallet 09-2014
+LIMX Update
+Fix Darksend und Anhebung des Timeouts in Darksend 05-05-2015
