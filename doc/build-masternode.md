@@ -14,6 +14,7 @@ Notes
 You need exactly 5000 LIMX to run a Masternode. Masternode input must have at least 15 confirmations.
 Building a new wallet.dat is also recommended (a seperate .conf is needed). Masternode earnings 
 going to this wallet.dat and address. Send only new earned coins away and pay attention for transaction fees.
+To fix a broken accountaddress 0 (possible when sending huge amounts of coins away), do a self tx of 5000 LIMX.
 
 
 Start
