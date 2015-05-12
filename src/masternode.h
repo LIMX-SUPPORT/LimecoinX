@@ -28,8 +28,8 @@
 
 #define MASTERNODE_MIN_CONFIRMATIONS           15
 #define MASTERNODE_MIN_DSEEP_SECONDS           (30*60)
-#define MASTERNODE_MIN_DSEE_SECONDS            (5*60)
-#define MASTERNODE_PING_SECONDS                (1*60)
+#define MASTERNODE_MIN_DSEE_SECONDS            (10*60)  // limxdev 12-05 Old 5*60
+#define MASTERNODE_PING_SECONDS                (5*60)   // limxdev 12-05 OLD 1*60
 #define MASTERNODE_EXPIRATION_SECONDS          (65*60)
 #define MASTERNODE_REMOVAL_SECONDS             (70*60)
 
@@ -229,10 +229,10 @@ public:
             if(nScanningErrorCount < 0) nScanningErrorCount = 0;
         } else { //all other codes are equally as bad
             nScanningErrorCount++;
-                        if(nScanningErrorCount >= 4)
+                        if(nScanningErrorCount >= 5)
                         {
-                        nScanningErrorCount = 0;
-                        LogPrintf("S-Reset "); //	Limxdev Unknow Erro -Set this for Debug
+                        nScanningErrorCount = 3;
+                        LogPrintf("S-Reset Bad Masternodescore \n"); //	Limxdev Set this for Debug
                         }
             if(nScanningErrorCount > MASTERNODE_SCANNING_ERROR_THESHOLD*2) nScanningErrorCount = MASTERNODE_SCANNING_ERROR_THESHOLD*2;
         }
