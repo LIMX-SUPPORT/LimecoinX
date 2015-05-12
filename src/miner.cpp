@@ -374,7 +374,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
             pblock->vtx[0].vout[payments-1].nValue = masternodePayment;
             blockValue -= masternodePayment;
             LogPrintf("Zugriff miner.cpp 375 blockValue %u\n", blockValue);
-            LogPrintf("Zugriff main.cpp 375 blockValue %u\n", masternodePayment);
+            LogPrintf("Zugriff main.cpp 375 masternodePayment %u\n", masternodePayment); // limxdev
         }
         pblock->vtx[0].vout[0].nValue = blockValue;
 
