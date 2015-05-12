@@ -7,3 +7,14 @@ Doge Fork Update
 last QT Paperwallet 09-2014
 LIMX Update
 Fix Darksend und Anhebung des Timeouts in Darksend 05-05-2015
+
+
+###################################
+Update
+version.h    PROTOCOL_VERSION 70076
+              MIN_PEER_PROTO_VERSION 70070
+clientversion.h CLIENT_VERSION_BUILD 
+configure.ac CLIENT_VERSION_BUILD
+core.h MIN_POOL_PEER_PROTO_VERSION   70075 ( Für Darksend) 
+masternode-pos.h MIN_MASTERNODE_POS_PROTO_VERSION 70075 ( Für Masternodes)
+instantx.h  MIN_INSTANTX_PROTO_VERSION 70075
