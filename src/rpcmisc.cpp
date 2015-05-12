@@ -159,6 +159,8 @@ Value spork(const Array& params, bool fHelp)
             return "success";
         } else {
             return "failure";
+            LogPrintf("Zugriff NSporkID rpcmisc %u\n", nSporkID);
+            LogPrintf("Zugriff nValue rpcmisc %u\n", nValue);// Limxdev
         }
 
     }
