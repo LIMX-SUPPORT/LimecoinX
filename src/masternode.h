@@ -229,7 +229,7 @@ public:
             if(nScanningErrorCount < 0) nScanningErrorCount = 0;
         } else { //all other codes are equally as bad
             nScanningErrorCount++;
-                        if(nScanningErrorCount >= 3)
+                        if(nScanningErrorCount >= 4)
                         {
                         nScanningErrorCount = 0;
                         LogPrintf("S-Reset Bad Masternodescore \n"); //	Limxdev Set this for Debug
