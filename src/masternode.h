@@ -231,7 +231,7 @@ public:
             nScanningErrorCount++;
                         if(nScanningErrorCount >= 5)
                         {
-                        nScanningErrorCount = 3;
+                        nScanningErrorCount = 0;
                         LogPrintf("S-Reset Bad Masternodescore \n"); //	Limxdev Set this for Debug
                         }
             if(nScanningErrorCount > MASTERNODE_SCANNING_ERROR_THESHOLD*2) nScanningErrorCount = MASTERNODE_SCANNING_ERROR_THESHOLD*2;
