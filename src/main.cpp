@@ -1609,17 +1609,17 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         unsigned int retarget = DIFF_KGW;
 
         if (!TestNet()) {
-            if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; if (pindexLast->nHeight > 96000) LogPrintf("Diff_KGW 1604"); }
+            if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; if (pindexLast->nHeight > 96000) LogPrintf("Diff_KGW 1612"); }
             else if (pindexLast->nHeight + 1 >= 34140) { retarget = DIFF_DGW; LogPrintf("Diff_DGW1605"); }
             else if (pindexLast->nHeight + 1 >= 15200)   retarget = DIFF_KGW;
             else retarget = DIFF_BTC;
         } else {
-        if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; LogPrintf("Diff_KGW 1609"); } }
-        else if (pindexLast->nHeight + 1 >= 2000) { retarget = DIFF_DGW; LogPrintf("Diff_KGW 1609"); }
+        if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; LogPrintf("Diff_KGW 1617"); } 
+        else if (pindexLast->nHeight + 1 >= 2000) { retarget = DIFF_DGW; LogPrintf("Diff_KGW 1618"); }
         else { 	retarget = DIFF_BTC; 
-        	LogPrintf("Diff_BTC 1611");
+        	LogPrintf("Diff_BTC 1620");
         }
-
+        }
         // Default Bitcoin style retargeting
         if (retarget == DIFF_BTC)
         {
@@ -1710,7 +1710,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
             return DarkGravityWave(pindexLast, pblock);
         }
         
-      LogPrintf("Diff_KGW 1703");
+      LogPrintf("Diff_KGW 1713");
       // Backupfunktion LIMXDEV
       static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
       static const unsigned int timeDaySeconds = 60 * 60 * 24;
