@@ -1614,7 +1614,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
             else if (pindexLast->nHeight + 1 >= 15200)   retarget = DIFF_KGW;
             else retarget = DIFF_BTC;
         } else {
-        if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; LogPrintf("Diff_KGW 1609"); }
+        if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; LogPrintf("Diff_KGW 1609"); } }
         else if (pindexLast->nHeight + 1 >= 2000) { retarget = DIFF_DGW; LogPrintf("Diff_KGW 1609"); }
         else { 	retarget = DIFF_BTC; 
         	LogPrintf("Diff_BTC 1611");
