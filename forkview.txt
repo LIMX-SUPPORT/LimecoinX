@@ -6,7 +6,8 @@ https://github.com/dashpay/dash/commits/master
 Doge Fork Update
 last QT Paperwallet 09-2014
 LIMX Update
-Fix Darksend und Anhebung des Timeouts in Darksend 05-05-2015
+Bakc to KGW @ Block 95000 22-05-2015
+
 
 
 ###################################
