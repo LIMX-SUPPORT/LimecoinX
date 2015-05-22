@@ -1592,23 +1592,32 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     if (bnNew > Params().ProofOfWorkLimit()){
         bnNew = Params().ProofOfWorkLimit();
     }
+    
+    // Limxdev 22-05-2015
+    if(fDebug){
+    printf("Difficulty Retarget - Kimoto Gravity Well\n");
+    printf("PastRateAdjustmentRatio = %g\n", PastRateAdjustmentRatio);
+    printf("Before: %08x  %s\n", BlockLastSolved->nBits, CBigNum().SetCompact(BlockLastSolved->nBits).getuint256().ToString().c_str());
+    printf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString().c_str());
+    }
 
     return bnNew.GetCompact();
 }
 
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
-        unsigned int retarget = DIFF_DGW;
+        unsigned int retarget = DIFF_KGW;
 
         if (!TestNet()) {
-            if (pindexLast->nHeight + 1 >= 95000) retarget = DIFF_KGW;  
-            else if (pindexLast->nHeight + 1 >= 34140) retarget = DIFF_DGW;
-            else if (pindexLast->nHeight + 1 >= 15200) retarget = DIFF_KGW;
+            if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; if (pindexLast->nHeight > 96000) LogPrintf("Diff_KGW 1604"); }
+            else if (pindexLast->nHeight + 1 >= 34140) { retarget = DIFF_DGW; LogPrintf("Diff_DGW1605"); }
+            else if (pindexLast->nHeight + 1 >= 15200)   retarget = DIFF_KGW;
             else retarget = DIFF_BTC;
         } else {
-        if (pindexLast->nHeight + 1 >= 95000) retarget = DIFF_KGW; 
-        else if (pindexLast->nHeight + 1 >= 2000) retarget = DIFF_DGW;
-        else retarget = DIFF_BTC;
+        if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; LogPrintf("Diff_KGW 1609"); }
+        else if (pindexLast->nHeight + 1 >= 2000) { retarget = DIFF_DGW; LogPrintf("Diff_KGW 1609"); }
+        else { 	retarget = DIFF_BTC; 
+        	LogPrintf("Diff_BTC 1611");
         }
 
         // Default Bitcoin style retargeting
@@ -1700,8 +1709,9 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         {
             return DarkGravityWave(pindexLast, pblock);
         }
-
-       // Limxdev return DarkGravityWave(pindexLast, pblock);
+        
+      LogPrintf("Diff_KGW 1703");
+      return  KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
 }
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits)
