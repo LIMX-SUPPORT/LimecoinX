@@ -1495,7 +1495,7 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBloc
         double EventHorizonDeviationSlow;
 
     if (BlockLastSolved == NULL || BlockLastSolved->nHeight == 0 || (uint64_t)BlockLastSolved->nHeight < PastBlocksMin) { return Params().ProofOfWorkLimit().GetCompact(); }
-	int64 LatestBlockTime = BlockLastSolved->GetBlockTime();
+	int64_t LatestBlockTime = BlockLastSolved->GetBlockTime();
         for (unsigned int i = 1; BlockReading && BlockReading->nHeight > 0; i++) {
                 if (PastBlocksMax > 0 && i > PastBlocksMax) { break; }
                 PastBlocksMass++;
@@ -1711,6 +1711,13 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         }
         
       LogPrintf("Diff_KGW 1703");
+      // Backupfunktion LIMXDEV
+      static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
+      static const unsigned int timeDaySeconds = 60 * 60 * 24;
+      uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
+      uint64_t pastSecondsMax = timeDaySeconds * 7;  
+      uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
+      uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
       return  KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
 }
 
