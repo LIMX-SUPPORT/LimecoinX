@@ -1699,7 +1699,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
             return DarkGravityWave(pindexLast, pblock);
         }
 
-        return DarkGravityWave(pindexLast, pblock);
+       // Limxdev return DarkGravityWave(pindexLast, pblock);
 }
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits)
