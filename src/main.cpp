@@ -1511,8 +1511,8 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBloc
                 PastRateActualSeconds                   = LatestBlockTime - BlockReading->GetBlockTime(); //Fix Limxdev
                 PastRateTargetSeconds = TargetBlocksSpacingSeconds * PastBlocksMass;
                 PastRateAdjustmentRatio = double(1);
-                if (PastRateActualSeconds < 1) { PastRateActualSeconds = 1; }
-                else { if (PastRateActualSeconds < 0) { PastRateActualSeconds = 0; }; } //Fix Limxdev
+                if (PastRateActualSeconds < 1) { PastRateActualSeconds = 1; } //Fix Limxdev new KGW
+                // else { if (PastRateActualSeconds < 0) { PastRateActualSeconds = 0; }; } //Fix Limxdev old KGW
                 if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
                 PastRateAdjustmentRatio = double(PastRateTargetSeconds) / double(PastRateActualSeconds);
                 }
