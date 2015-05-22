@@ -1493,7 +1493,7 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBloc
         double EventHorizonDeviationSlow;
 
     if (BlockLastSolved == NULL || BlockLastSolved->nHeight == 0 || (uint64_t)BlockLastSolved->nHeight < PastBlocksMin) { return Params().ProofOfWorkLimit().GetCompact(); }
-
+	int64 LatestBlockTime = BlockLastSolved->GetBlockTime();
         for (unsigned int i = 1; BlockReading && BlockReading->nHeight > 0; i++) {
                 if (PastBlocksMax > 0 && i > PastBlocksMax) { break; }
                 PastBlocksMass++;
@@ -1501,15 +1501,20 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBloc
                 if (i == 1) { PastDifficultyAverage.SetCompact(BlockReading->nBits); }
                 else { PastDifficultyAverage = ((CBigNum().SetCompact(BlockReading->nBits) - PastDifficultyAveragePrev) / i) + PastDifficultyAveragePrev; }
                 PastDifficultyAveragePrev = PastDifficultyAverage;
+                 if (LatestBlockTime < BlockReading->GetBlockTime()) //Fix Limxdev
+                 {
+                 	LatestBlockTime = BlockReading->GetBlockTime();
+                 }
 
-                PastRateActualSeconds = BlockLastSolved->GetBlockTime() - BlockReading->GetBlockTime();
+                PastRateActualSeconds                   = LatestBlockTime - BlockReading->GetBlockTime(); //Fix Limxdev
                 PastRateTargetSeconds = TargetBlocksSpacingSeconds * PastBlocksMass;
                 PastRateAdjustmentRatio = double(1);
-                if (PastRateActualSeconds < 0) { PastRateActualSeconds = 0; }
+                if (PastRateActualSeconds < 1) { PastRateActualSeconds = 1; }
+                else { if (PastRateActualSeconds < 0) { PastRateActualSeconds = 0; }; } //Fix Limxdev
                 if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
                 PastRateAdjustmentRatio = double(PastRateTargetSeconds) / double(PastRateActualSeconds);
                 }
-                EventHorizonDeviation = 1 + (0.7084 * pow((double(PastBlocksMass)/double(28.2)), -1.228));
+                EventHorizonDeviation = 1 + (0.7084 * pow((double(PastBlocksMass)/double(144)), -1.228)); // Fix Limxdev
                 EventHorizonDeviationFast = EventHorizonDeviation;
                 EventHorizonDeviationSlow = 1 / EventHorizonDeviation;
 
@@ -1594,12 +1599,14 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         unsigned int retarget = DIFF_DGW;
 
         if (!TestNet()) {
-            if (pindexLast->nHeight + 1 >= 34140) retarget = DIFF_DGW;
+            if (pindexLast->nHeight + 1 >= 95000) retarget = DIFF_KGW;  
+            else if (pindexLast->nHeight + 1 >= 34140) retarget = DIFF_DGW;
             else if (pindexLast->nHeight + 1 >= 15200) retarget = DIFF_KGW;
             else retarget = DIFF_BTC;
         } else {
-            if (pindexLast->nHeight + 1 >= 2000) retarget = DIFF_DGW;
-            else retarget = DIFF_BTC;
+        if (pindexLast->nHeight + 1 >= 95000) retarget = DIFF_KGW; 
+        else if (pindexLast->nHeight + 1 >= 2000) retarget = DIFF_DGW;
+        else retarget = DIFF_BTC;
         }
 
         // Default Bitcoin style retargeting
