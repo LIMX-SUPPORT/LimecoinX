@@ -59,7 +59,7 @@ SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
     connect(ui->checkUseDarksend, SIGNAL(stateChanged ( int )), this, SLOT(updateDisplayUnit()));
     connect(ui->checkInstantX, SIGNAL(stateChanged ( int )), this, SLOT(updateInstantX()));
     // Just test Limxdev 23-05-2015
-    ui->checkUseDarksend->setChecked(false);
+   // ui->checkUseDarksend->setChecked(false);
 
     // Coin Control: clipboard actions
     QAction *clipboardQuantityAction = new QAction(tr("Copy quantity"), this);
