@@ -1482,8 +1482,8 @@ unsigned int ComputeMinWork(unsigned int nBase, int64_t nTime)
 unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBlockHeader *pblock, uint64_t TargetBlocksSpacingSeconds, uint64_t PastBlocksMin, uint64_t PastBlocksMax) {
         const CBlockIndex *BlockLastSolved = pindexLast;
         const CBlockIndex *BlockReading = pindexLast;
-      //  const CBlockHeader *BlockCreating = pblock; Limxdev ??
-      //  BlockCreating = BlockCreating; Limxdev ??
+        const CBlockHeader *BlockCreating = pblock;// Limxdev add from old KGW
+        BlockCreating = BlockCreating; //Limxdev add from old KGW
         uint64_t PastBlocksMass = 0;
         int64_t PastRateActualSeconds = 0;
         int64_t PastRateTargetSeconds = 0;
@@ -1508,7 +1508,7 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBloc
                  	LatestBlockTime = BlockReading->GetBlockTime();
                  }
 
-                PastRateActualSeconds                   = LatestBlockTime - BlockReading->GetBlockTime(); //Fix Limxdev
+                PastRateActualSeconds = LatestBlockTime - BlockReading->GetBlockTime(); //Fix Limxdev
                 PastRateTargetSeconds = TargetBlocksSpacingSeconds * PastBlocksMass;
                 PastRateAdjustmentRatio = double(1);
                 if (PastRateActualSeconds < 1) { PastRateActualSeconds = 1; } //Fix Limxdev new KGW
