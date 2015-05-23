@@ -1609,7 +1609,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         unsigned int retarget = DIFF_KGW;
 
         if (!TestNet()) {
-            if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; if (pindexLast->nHeight > 96000) LogPrintf("Diff_KGW 1612"); }
+            if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; if (pindexLast->nHeight < 96000) LogPrintf("Diff_KGW 1612"); }
             else if (pindexLast->nHeight + 1 >= 34140) { retarget = DIFF_DGW; LogPrintf("Diff_DGW1605"); }
             else if (pindexLast->nHeight + 1 >= 15200)   retarget = DIFF_KGW;
             else retarget = DIFF_BTC;
