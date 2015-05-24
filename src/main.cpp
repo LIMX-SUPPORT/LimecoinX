@@ -3004,11 +3004,15 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
                     return state.DoS(100, error("AcceptBlock() : incorrect proof of work (DGW pre-fork) - %f", abs(n1-n2)),
                                     REJECT_INVALID, "bad-diffbits");
             } else {
+            */
+            if(nHeight >= 96000){
                 if (block.nBits != GetNextWorkRequired(pindexPrev, &block))
                     return state.DoS(100, error("AcceptBlock() : incorrect proof of work"),
                                     REJECT_INVALID, "bad-diffbits");
             }
-        }*/ //limxdev 12-04-2015 Spungmakre CCCCCDDD
+                                    /*
+            }
+        }*/ //limxdev Prüfunktion 25-05-20105
 
         // Check timestamp against prev
         if (block.GetBlockTime() <= pindexPrev->GetMedianTimePast())
