@@ -1,7 +1,7 @@
 Bitcoin Fork Update
 last 05-05-2015 
 Dash Fork Update 
-last 20 May by UdjinM6
+last 26 May by Merge pull request #339 
 https://github.com/dashpay/dash/commits/master
 Doge Fork Update
 last QT Paperwallet 09-2014
