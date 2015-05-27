@@ -61,6 +61,8 @@ Build requirements:
 for Ubuntu 12.04 and later:
 
 	sudo apt-get install libboost-all-dev
+	sudo apt-get install pkg-config 
+	( http://packages.ubuntu.com/de/source/trusty/pkg-config)
 
  db4.8 packages are available [here](https://launchpad.net/~bitcoin/+archive/bitcoin).
  You can add the repository using the following command:
