@@ -9,6 +9,8 @@ Copyright (c) 2014-2015 Dash Core Developers
 
 Copyright (c) 2014 Doge Core Developers
 
+Copyright (c) 2013 Dr Kimoto Chan
+
 Copyright (c) 2014-2015 LIMX Core Developers
 
 
@@ -26,7 +28,7 @@ Limecoinx Core:
 - Renamed client to identify with network from Satoshi to Core
 - Bumped protocol version to 70075
 - Masternode with 5000 LIMX
-- NEW Reward (50 LIMX /2 * 5 MIN)= 25 LIMX per Miner & 25 LIMX per Masternode or 40/10) 
+- NEW Reward = 40 LIMX per Miner/Pool & 10 LIMX per Masternode
 - NEW RPC PORT 8800 and NEW P2P Port Default 8886
 - Changed testnet address versions 
 - Defined BIP32 (HD) address versions
