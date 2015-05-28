@@ -21,6 +21,7 @@ using namespace boost::assign;
 
 unsigned int pnSeed[] =
 {
+  0x2E659772, 0x6C3DB332, 0x68CF9F6E, 0x2D3F011B,
   0x0538D1FF, 0x95ACA665, 0x1BC0903A, 0xC6C766A5, 0xB924485A, 0x7526EDE1, 0xB924485A, 0x5519C5BA, 0x3EDD537F, 0x6C3DB332,
   0x904CEF42, 0x0587BF16, 0xA2F3CEE2, 0xCDD18F2A, 0x2F115487, 0xD4E35BBE, 0x5D989674, 0xBCA61AD1, 0x94FB46C2, 0x904CEF42,
   0x2E69D968, 0x05092709,
@@ -67,8 +68,8 @@ public:
      //   vSeeds.push_back(CDNSSeedData("", ""));  //Limxian
      //   vSeeds.push_back(CDNSSeedData("", "")); //coinwall
         vSeeds.push_back(CDNSSeedData("85.214.68.75", "85.214.68.75"));
-        vSeeds.push_back(CDNSSeedData("62.221.89.173", "62.221.89.173")); // Aika
-        vSeeds.push_back(CDNSSeedData("198.199.102.165", "198.199.102.165"));  // Rapta Coingahter
+        vSeeds.push_back(CDNSSeedData("108.61.179.50", "108.61.179.50")); // Aika
+        vSeeds.push_back(CDNSSeedData("104.207.159.110", "104.207.159.110"));  // Rapta Coingahter
     //    vSeeds.push_back(CDNSSeedData("27.192.144.58", "27.192.144.58"));
     //    vSeeds.push_back(CDNSSeedData("212.227.91.190", "212.227.91.190"));  //p2pool.palim.eu
     //    vSeeds.push_back(CDNSSeedData("5.9.39.9", "5.9.39.9"));       //Bchain

@@ -75,15 +75,15 @@ MSYS shell:
 	mkdir miniupnpc
 	cp *.h miniupnpc/
 
-Bitcoin
+Limecoinx
 -------
 MSYS shell:
 
-	cd \bitcoin
+	cd \limecoinx
 	sh autogen.sh
 	sh configure
 	mingw32-make
-	strip bitcoind.exe
+	strip limecoinx.exe
 	
 	
 -------------------	compiling limx on windows

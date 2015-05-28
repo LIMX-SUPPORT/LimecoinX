@@ -39,8 +39,8 @@ class CActiveMasternode;
 #define MASTERNODE_REJECTED                    0
 #define MASTERNODE_RESET                       -1
 
-#define DARKSEND_QUEUE_TIMEOUT                 30 // in seconds
-#define DARKSEND_SIGNING_TIMEOUT               15 // in seconds
+#define DARKSEND_QUEUE_TIMEOUT                 300 // in seconds 30
+#define DARKSEND_SIGNING_TIMEOUT               60 // in seconds  15
 
 // used for anonymous relaying of inputs/outputs/sigs
 #define DARKSEND_RELAY_IN                 1
@@ -337,9 +337,11 @@ public:
     void InitCollateralAddress(){
         std::string strAddress = "";
         if(Params().NetworkID() == CChainParams::MAIN) {
-            strAddress = "Xq19GqFvajRrEdDHYRKGYjTsQfpV5jyipF";
-        } else {
-            strAddress = "y1EZuxhhNMAUofTBEeLqGE1bJrpC2TWRNp";
+            strAddress = "iFoxApoYXNgEsstxaaGtn1NnbvuSL34726";
+            LogPrintf("Zugriff auf StrAdress 341 darksend.h\n");
+        } 
+        else {
+            strAddress = "y1EZuxhhNMAUofTBEeLqGE1bJrpC2TWRNp"; // Not used Limxdev 01-05
         }
         SetCollateralAddress(strAddress);
     }
