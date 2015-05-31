@@ -1348,7 +1348,9 @@ void AddTimeData(const CNetAddr& ip, int64_t nTime)
         int64_t nMedian = vTimeOffsets.median();
         std::vector<int64_t> vSorted = vTimeOffsets.sorted();
         // Only let other nodes change our time by so much
-        if (abs64(nMedian) < 70 * 60)
+        // LimecoinX: changed maximum adjust to 10 mins to avoid letting peers change our time too much in case of an attack.
+        // Old (abs64(nMedian) < 70 * 60) Limxdev 31-05-2015
+        if (abs64(nMedian) < 10 * 60)
         {
             nTimeOffset = nMedian;
         }
