@@ -3028,7 +3028,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
                                     REJECT_INVALID, "bad-diffbits");
             } else {
             */
-            if(nHeight >= 97500){
+            if(nHeight >= 96000){
                 if (block.nBits != GetNextWorkRequired(pindexPrev, &block))
                     return state.DoS(100, error("AcceptBlock() : incorrect proof of work"),
                                     REJECT_INVALID, "bad-diffbits");
