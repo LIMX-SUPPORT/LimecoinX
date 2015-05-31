@@ -2834,11 +2834,21 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         return state.DoS(50, error("CheckBlock() : proof of work failed"),
                          REJECT_INVALID, "high-hash");
 
-    // Check timestamp Limxdev
+    // Get prev block index -Limxdev
     CBlockIndex* pindexPrev = NULL;
     int nHeight = 0;
-    pindexPrev = (*mi).second;
-    nHeight = pindexPrev->nHeight+1;
+    if (hash != Params().HashGenesisBlock()) {
+        map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
+        if (mi == mapBlockIndex.end())
+            return state.DoS(10, error("AcceptBlock() : prev block not found"), 0, "bad-prevblk");
+        pindexPrev = (*mi).second;
+        nHeight = pindexPrev->nHeight+1;
+
+        if(TestNet()) {
+            if (block.nBits != GetNextWorkRequired(pindexPrev, &block))
+                return state.DoS(100, error("AcceptBlock() : incorrect proof of work"),
+                                 REJECT_INVALID, "bad-diffbits");
+        }
     
     if(nHeight < 97500){
     if (block.GetBlockTime() > GetAdjustedTime() + 2 * 60 * 60)
