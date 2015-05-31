@@ -1696,8 +1696,14 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         {
             static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
             static const unsigned int timeDaySeconds = 60 * 60 * 24;
+            if (pindexLast->nHeight < 97500){
             uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
-            uint64_t pastSecondsMax = timeDaySeconds * 7;  
+            uint64_t pastSecondsMax = timeDaySeconds * 7;
+            }
+            if (pindexLast->nHeight >= 97500){
+            uint64_t pastSecondsMin = timeDaySeconds * 0.50; // Old 0,025
+            uint64_t pastSecondsMax = timeDaySeconds * 14;
+            }
             uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
             uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
 
@@ -1714,8 +1720,14 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
       // Backupfunktion LIMXDEV
       static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
       static const unsigned int timeDaySeconds = 60 * 60 * 24;
-      uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
-      uint64_t pastSecondsMax = timeDaySeconds * 7;  
+      if (pindexLast->nHeight < 97500){
+            uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
+            uint64_t pastSecondsMax = timeDaySeconds * 7;
+            }
+            if (pindexLast->nHeight >= 97500){
+            uint64_t pastSecondsMin = timeDaySeconds * 0.50; // Old 0,025
+            uint64_t pastSecondsMax = timeDaySeconds * 14;
+            } 
       uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
       uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
       return  KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
