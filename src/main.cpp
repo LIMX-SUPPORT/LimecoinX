@@ -2835,6 +2835,11 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                          REJECT_INVALID, "high-hash");
 
     // Check timestamp Limxdev
+    CBlockIndex* pindexPrev = NULL;
+    int nHeight = 0;
+    pindexPrev = (*mi).second;
+    nHeight = pindexPrev->nHeight+1;
+    
     if(nHeight < 97500){
     if (block.GetBlockTime() > GetAdjustedTime() + 2 * 60 * 60)
         return state.Invalid(error("CheckBlock() : block timestamp too far in the future"),
