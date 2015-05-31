@@ -2835,6 +2835,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                          REJECT_INVALID, "high-hash");
 
     // Get prev block index -Limxdev
+    /*
     CBlockIndex* pindexPrev = NULL;
     int nHeight = 0;
     if (hash != Params().HashGenesisBlock()) {
@@ -2856,12 +2857,12 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                              REJECT_INVALID, "time-too-new");
     }
                              
-	if(nHeight >= 97500){
+	if(nHeight >= 97500){ */
     // Limxdev: limit timestamp window 
 	if (block.GetBlockTime() > GetAdjustedTime() + 20 * 60)
 	return state.Invalid(error("CheckBlock() : block timestamp too far in the future"),
-	REJECT_INVALID, "time-too-new 2");
-	}
+			REJECT_INVALID, "time-too-new 2");
+//	}
 
                             
 
