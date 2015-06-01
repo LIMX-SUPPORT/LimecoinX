@@ -1691,23 +1691,29 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 
         }
 
-        // Retarget using Kimoto Gravity Wave
+        // Retarget using Kimoto Gravity Wave in KGW Version 2 included FiX
         else if (retarget == DIFF_KGW)
         {
-            static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
-            static const unsigned int timeDaySeconds = 60 * 60 * 24;
-           // if (pindexLast->nHeight < 97500){
+            /*Second variant - disable
+            if (pindexLast->nHeight >= 100000){
             uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
             uint64_t pastSecondsMax = timeDaySeconds * 7;
-           /* }
-            if (pindexLast->nHeight >= 97500){
             uint64_t pastSecondsMin = timeDaySeconds * 0.50; // Old 0,025
             uint64_t pastSecondsMax = timeDaySeconds * 14;
-            } */
+            uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
+            uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
+            return KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
+            }*/
+            static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
+            static const unsigned int timeDaySeconds = 60 * 60 * 24;
+            uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
+            uint64_t pastSecondsMax = timeDaySeconds * 7;
             uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
             uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
 
             return KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
+           
+            
         }
 
         // Retarget using Dark Gravity Wave 3
@@ -1717,17 +1723,21 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         }
         
       LogPrintf("Diff_KGW 1713");
-      // Backupfunktion LIMXDEV
-      static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
-      static const unsigned int timeDaySeconds = 60 * 60 * 24;
-    //  if (pindexLast->nHeight < 97500){
+      // Backupfunktion LIMXDEV if (retarget != DIFF_DGW && retarget != DIFF_KGW && retarget !=  DIFF_BTC)
+      /*Second variant - disable
+            if (pindexLast->nHeight >= 100000){
             uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
             uint64_t pastSecondsMax = timeDaySeconds * 7;
-           /* }
-            if (pindexLast->nHeight >= 97500){
             uint64_t pastSecondsMin = timeDaySeconds * 0.50; // Old 0,025
             uint64_t pastSecondsMax = timeDaySeconds * 14;
-            } */
+            uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
+            uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
+            return KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
+            }*/
+      static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
+      static const unsigned int timeDaySeconds = 60 * 60 * 24;
+      uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
+      uint64_t pastSecondsMax = timeDaySeconds * 7;
       uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
       uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
       return  KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
@@ -2834,37 +2844,10 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         return state.DoS(50, error("CheckBlock() : proof of work failed"),
                          REJECT_INVALID, "high-hash");
 
-    // Get prev block index -Limxdev
-    /*
-    CBlockIndex* pindexPrev = NULL;
-    int nHeight = 0;
-    if (hash != Params().HashGenesisBlock()) {
-        map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
-        if (mi == mapBlockIndex.end())
-            return state.DoS(10, error("AcceptBlock() : prev block not found"), 0, "bad-prevblk");
-        pindexPrev = (*mi).second;
-        nHeight = pindexPrev->nHeight+1;
-
-        if(TestNet()) {
-            if (block.nBits != GetNextWorkRequired(pindexPrev, &block))
-                return state.DoS(100, error("AcceptBlock() : incorrect proof of work"),
-                                 REJECT_INVALID, "bad-diffbits");
-        }
-    
-    if(nHeight < 97500){
-    if (block.GetBlockTime() > GetAdjustedTime() + 2 * 60 * 60)
-        return state.Invalid(error("CheckBlock() : block timestamp too far in the future"),
-                             REJECT_INVALID, "time-too-new");
-    }
-                             
-	if(nHeight >= 97500){ */
     // Limxdev: limit timestamp window 
 	if (block.GetBlockTime() > GetAdjustedTime() + 20 * 60)
 	return state.Invalid(error("CheckBlock() : block timestamp too far in the future"),
 			REJECT_INVALID, "time-too-new 2");
-//	}
-
-                            
 
     // First transaction must be coinbase, the rest must not be
     if (block.vtx.empty() || !block.vtx[0].IsCoinBase())
