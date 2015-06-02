@@ -1694,26 +1694,28 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         // Retarget using Kimoto Gravity Wave in KGW Version 2 included FiX
         else if (retarget == DIFF_KGW)
         {
-            /*Second variant - disable
-            if (pindexLast->nHeight >= 100000){
-            uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
-            uint64_t pastSecondsMax = timeDaySeconds * 7;
+           // Second variant - disable
+            if (pindexLast->nHeight >= 99000){
+            if (pindexLast->nHeight <99500) LogPrintf("Diff_KGW Hard Settings");
+            static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
+            static const unsigned int timeDaySeconds = 60 * 60 * 24;
             uint64_t pastSecondsMin = timeDaySeconds * 0.50; // Old 0,025
             uint64_t pastSecondsMax = timeDaySeconds * 14;
             uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
             uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
             return KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
-            }*/
+            }
+            else
+            {
             static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
             static const unsigned int timeDaySeconds = 60 * 60 * 24;
             uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
             uint64_t pastSecondsMax = timeDaySeconds * 7;
             uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
             uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
-
             return KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
-           
-            
+            }
+
         }
 
         // Retarget using Dark Gravity Wave 3
@@ -1721,26 +1723,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         {
             return DarkGravityWave(pindexLast, pblock);
         }
-        
-      LogPrintf("Diff_KGW 1713");
-      // Backupfunktion LIMXDEV if (retarget != DIFF_DGW && retarget != DIFF_KGW && retarget !=  DIFF_BTC)
-      /*Second variant - disable
-            if (pindexLast->nHeight >= 100000){
-            uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
-            uint64_t pastSecondsMax = timeDaySeconds * 7;
-            uint64_t pastSecondsMin = timeDaySeconds * 0.50; // Old 0,025
-            uint64_t pastSecondsMax = timeDaySeconds * 14;
-            uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
-            uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
-            return KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
-            }*/
-      static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
-      static const unsigned int timeDaySeconds = 60 * 60 * 24;
-      uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
-      uint64_t pastSecondsMax = timeDaySeconds * 7;
-      uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
-      uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
-      return  KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
+
 }
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits)
@@ -2881,7 +2864,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     }
 
 
-    // ----------- masternode payments -----------
+   // ----------- masternode payments -----------
 
     bool MasternodePayments = false;
 
@@ -2892,7 +2875,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     }
 
     if(!IsSporkActive(SPORK_1_MASTERNODE_PAYMENTS_ENFORCEMENT)){
-        MasternodePayments = false;
+        MasternodePayments = false; // Limxdev
         if(fDebug) LogPrintf("CheckBlock() : Masternode payment enforcement is off\n");
     }
 
@@ -2904,7 +2887,8 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         if(pindex != NULL){
             if(pindex->GetBlockHash() == block.hashPrevBlock){
                 int64_t masternodePaymentAmount = GetMasternodePayment(pindex->nHeight+1, block.vtx[0].GetValueOut());
-                bool fIsInitialDownload = IsInitialBlockDownload();
+				int64_t hardblockpowreward = block.vtx[0].vout[0].nValue; //write by Limxdev 02-06-2015
+				bool fIsInitialDownload = IsInitialBlockDownload();
 
                 // If we don't already have its previous block, skip masternode payment step
                 if (!fIsInitialDownload && pindex != NULL)
@@ -2912,21 +2896,55 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                     bool foundPaymentAmount = false;
                     bool foundPayee = false;
                     bool foundPaymentAndPayee = false;
-
-                    CScript payee;
+					CScript payee;
                     if(!masternodePayments.GetBlockPayee(chainActive.Tip()->nHeight+1, payee) || payee == CScript()){
+					//////////////////////  Limxdev 02.06.2015
+										 AssertLockHeld(cs_main);
+					// Check for duplicate
+					uint256 hash = block.GetHash();
+					//if (mapBlockIndex.count(hash))
+					//return state.Invalid(error("AcceptBlock() : block already in mapBlockIndex"), 0, "duplicate");
+					// Get prev block index
+					CBlockIndex* pindexPrev = NULL;
+					int nHeight = 0;
+					if (hash != Params().HashGenesisBlock()) {
+					map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
+					//if (mi == mapBlockIndex.end())
+					//return state.DoS(10, error("AcceptBlock() : prev block not found"), 0, "bad-prevblk");
+					pindexPrev = (*mi).second;
+					nHeight = pindexPrev->nHeight+1;
+					//LogPrintf("nHeight xxx = %d\n", nHeight);
+					////////////////////////// nheight Funktion Ende
                         foundPayee = true; //doesn't require a specific payee
                         foundPaymentAmount = true;
-                        foundPaymentAndPayee = true;
-                        LogPrintf("CheckBlock() : Using non-specific masternode payments %d\n", chainActive.Tip()->nHeight+1);
+						if (nHeight >= 97250){
+						//Limxdev 31-05-2015 Limx proof of payment
+						int64_t sollreward = 1000000000;
+						int64_t blockpowreward = 4900000000;// + nFees; later
+						int64_t maxsumm = 5900000000;// + nFees; later
+						int64_t maxsumm2 = hardblockpowreward + masternodePaymentAmount;
+						if( masternodePaymentAmount >= sollreward && blockpowreward > hardblockpowreward && maxsumm > maxsumm2) //write by Limxdev 02-06-2015
+                            foundPaymentAndPayee = true;
+						//LogPrintf("Sollreward = %d\n", sollreward);
+						//LogPrintf("blockpowreward = %d\n", blockpowreward);
+						//LogPrintf("hardblockpowreward = %d\n", hardblockpowreward);
+						//LogPrintf("masternodePaymentAmount = %d\n", masternodePaymentAmount);
+                        LogPrintf("## Limx proof of payment ## CheckBlock() : Using non-specific masternode payments %d\n", chainActive.Tip()->nHeight+1);
+						} else
+							{
+							if (nHeight < 97250) LogPrintf("Disable## Limx proof of payment activate 97250 ## nHeight = %d\n", nHeight");
+							foundPaymentAndPayee = true;
+							}
                     }
-
+					}
+					
+					// nheight Funktion Ende zweite Spannge
                     for (unsigned int i = 0; i < block.vtx[0].vout.size(); i++) {
                         if(block.vtx[0].vout[i].nValue == masternodePaymentAmount )
                             foundPaymentAmount = true;
                         if(block.vtx[0].vout[i].scriptPubKey == payee )
                             foundPayee = true;
-                        if(block.vtx[0].vout[i].nValue == masternodePaymentAmount && block.vtx[0].vout[i].scriptPubKey == payee)
+					if(block.vtx[0].vout[i].nValue == masternodePaymentAmount && block.vtx[0].vout[i].scriptPubKey == payee)
                             foundPaymentAndPayee = true;
                     }
 
@@ -2936,7 +2954,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                     CBitcoinAddress address2(address1);
 
                     if(!foundPaymentAndPayee) {
-                        LogPrintf("CheckBlock() : Couldn't find masternode payment(%d|%d) or payee(%d|%s) nHeight %d. \n", foundPaymentAmount, masternodePaymentAmount, foundPayee, address2.ToString().c_str(), chainActive.Tip()->nHeight+1);
+                        LogPrintf("CheckBlock() : Regards Limxdev !!Couldn't find masternode payment(%d|%d) or payee(%d|%s) nHeight %d. \n", foundPaymentAmount, masternodePaymentAmount, foundPayee, address2.ToString().c_str(), chainActive.Tip()->nHeight+1);
                         if(!RegTest()) return state.DoS(100, error("CheckBlock() : Couldn't find masternode payment or payee"));
                     } else {
                         LogPrintf("CheckBlock() : Found payment(%d|%d) or payee(%d|%s) nHeight %d. \n", foundPaymentAmount, masternodePaymentAmount, foundPayee, address2.ToString().c_str(), chainActive.Tip()->nHeight+1);
@@ -2953,7 +2971,6 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     } else {
         LogPrintf("CheckBlock() : skipping masternode payment checks\n");
     }
-
 
     // Check transactions
     BOOST_FOREACH(const CTransaction& tx, block.vtx)
