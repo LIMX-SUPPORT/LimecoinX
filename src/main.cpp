@@ -1694,6 +1694,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         // Retarget using Kimoto Gravity Wave in KGW Version 2 included FiX
         else if (retarget == DIFF_KGW)
         {
+        /*
            // Second variant - disable
             if (pindexLast->nHeight >= 99000){
             if (pindexLast->nHeight <99500) LogPrintf("Diff_KGW Hard Settings");
@@ -1705,8 +1706,8 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
             uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
             return KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
             }
-            else
-            {
+            else */
+          //  {
             static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
             static const unsigned int timeDaySeconds = 60 * 60 * 24;
             uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
@@ -1714,7 +1715,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
             uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
             uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
             return KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
-            }
+           // }
 
         }
 
