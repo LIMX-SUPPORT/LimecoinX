@@ -2932,7 +2932,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                         LogPrintf("## Limx proof of payment ## CheckBlock() : Using non-specific masternode payments %d\n", chainActive.Tip()->nHeight+1);
 						} else
 							{
-							if (nHeight < 97250) LogPrintf("Disable## Limx proof of payment activate 97250 ## nHeight = %d\n", nHeight");
+							if (nHeight < 97250) LogPrintf("Disable## Limx proof of payment activate 97250 ## nHeight = %d\n", nHeight);
 							foundPaymentAndPayee = true;
 							}
                     }
