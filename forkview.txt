@@ -7,6 +7,9 @@ Doge Fork Update
 last QT Paperwallet 09-2014
 LIMX Update
 Bakc to KGW @ Block 95000 22-05-2015
+- Funktion Diffbit 96000
+- Funktion Hard KGW 99000
+- Funktion Limx Proof Payment 
 
 
 
