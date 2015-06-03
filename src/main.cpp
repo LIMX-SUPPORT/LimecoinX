@@ -2924,7 +2924,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 						int64_t blockpowreward = 4900000000;// + nFees; later
 						int64_t maxsumm = 5900000000;// + nFees; later
 						int64_t maxsumm2 = hardblockpowreward + masternodePaymentAmount;
-						if( masternodePaymentAmount >= sollreward && blockpowreward > hardblockpowreward && maxsumm > maxsumm2) //write by Limxdev 02-06-2015
+						if(hardblockpowreward >= 4000000000 && masternodePaymentAmount >= sollreward && blockpowreward > hardblockpowreward && maxsumm > maxsumm2) //write by Limxdev 02-06-2015
                             foundPaymentAndPayee = true;
 						//LogPrintf("Sollreward = %d\n", sollreward);
 						//LogPrintf("blockpowreward = %d\n", blockpowreward);
