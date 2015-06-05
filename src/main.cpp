@@ -1478,7 +1478,7 @@ unsigned int ComputeMinWork(unsigned int nBase, int64_t nTime)
         bnResult = bnLimit;
     return bnResult.GetCompact();
 }
-
+unsigned int bnProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
 #include "diff_limx.h"
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
