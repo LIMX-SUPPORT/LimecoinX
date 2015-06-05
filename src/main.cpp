@@ -1603,19 +1603,22 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     
     return bnNew.GetCompact();
 }
-
+#include "diff_delta.h"
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
         unsigned int retarget = DIFF_KGW;
+        static int nDeltaSwitchover = 100000;
 
         if (!TestNet()) {
-            if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; if (pindexLast->nHeight < 96000) LogPrintf("Diff_KGW 1612"); }
-            else if (pindexLast->nHeight + 1 >= 34140) { retarget = DIFF_DGW; LogPrintf("Diff_DGW1605"); }
-            else if (pindexLast->nHeight + 1 >= 15200)   retarget = DIFF_KGW;
+        if (pindexLast->nHeight + 1 >= 100000) { return GetNextWorkRequired_Delta(pindexLast, pblock, nDeltaSwitchover); if (pindexLast->nHeight < 101000) LogPrintf("Delta Diff"); }
+            else if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; }
+            else if (pindexLast->nHeight + 1 >= 34140) { retarget = DIFF_DGW; }
+            else if (pindexLast->nHeight + 1 >= 15200) { retarget = DIFF_KGW; }
             else retarget = DIFF_BTC;
         } else {
-        if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; LogPrintf("Diff_KGW 1617"); } 
-        else if (pindexLast->nHeight + 1 >= 2000) { retarget = DIFF_DGW; LogPrintf("Diff_KGW 1618"); }
+        if (pindexLast->nHeight + 1 >= 100) {return GetNextWorkRequired_Delta(pindexLast, pblock, nDeltaSwitchover); LogPrintf("Delta Testnet"); } 
+        else if (pindexLast->nHeight + 1 >= 40) { retarget = DIFF_KGW; LogPrintf("KGW Testnet"); } 
+        else if (pindexLast->nHeight + 1 >= 20) { retarget = DIFF_DGW; LogPrintf("DGW Testnet"); }
         else { 	retarget = DIFF_BTC; 
         	LogPrintf("Diff_BTC 1620");
         }
@@ -1694,20 +1697,6 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         // Retarget using Kimoto Gravity Wave in KGW Version 2 included FiX
         else if (retarget == DIFF_KGW)
         {
-        /*
-           // Second variant - disable
-            if (pindexLast->nHeight >= 99000){
-            if (pindexLast->nHeight <99500) LogPrintf("Diff_KGW Hard Settings");
-            static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
-            static const unsigned int timeDaySeconds = 60 * 60 * 24;
-            uint64_t pastSecondsMin = timeDaySeconds * 0.50; // Old 0,025
-            uint64_t pastSecondsMax = timeDaySeconds * 14;
-            uint64_t pastBlocksMin = pastSecondsMin / blocksTargetSpacing;
-            uint64_t pastBlocksMax = pastSecondsMax / blocksTargetSpacing;
-            return KimotoGravityWell(pindexLast, pblock, blocksTargetSpacing, pastBlocksMin, pastBlocksMax);
-            }
-            else */
-          //  {
             static const uint64_t blocksTargetSpacing = 5 * 60; // 5 minutes
             static const unsigned int timeDaySeconds = 60 * 60 * 24;
             uint64_t pastSecondsMin = timeDaySeconds * 0.25; // Old 0,025
