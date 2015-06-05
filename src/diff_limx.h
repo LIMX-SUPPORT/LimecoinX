@@ -9,10 +9,140 @@
 // In addition to the core algorithm several extra rules are then applied in certain situations (e.g. multiple quick blocks) to enhance the behaviour.
 
 
-#ifndef GULDENCOIN_DIFF_DELTA_H
-#define GULDENCOIN_DIFF_DELTA_H
+#ifndef GULDENCOIN_DIFF_LIMX_H
+#define GULDENCOIN_DIFF_LIMX_H
 
 #define PERCENT_FACTOR 100
+
+//////////////////////////////////////////////////////////////////////////////
+//
+//  Limxdev DGW/KGW/Delta
+//
+unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockHeader *pblock) {
+    /* current difficulty formula, Dash - DarkGravity v3, written by Evan Duffield - evan@limecoinxpay.io */
+    const CBlockIndex *BlockLastSolved = pindexLast;
+    const CBlockIndex *BlockReading = pindexLast;
+    int64_t nActualTimespan = 0;
+    int64_t LastBlockTime = 0;
+    int64_t PastBlocksMin = 24;  // LIMX 14  - OLD 24
+    int64_t PastBlocksMax = 24;  // LIMX 140 - OLD 24
+    int64_t CountBlocks = 0;
+    CBigNum PastDifficultyAverage;
+    CBigNum PastDifficultyAveragePrev;
+
+    if (BlockLastSolved == NULL || BlockLastSolved->nHeight == 0 || BlockLastSolved->nHeight < PastBlocksMin) {
+        return Params().ProofOfWorkLimit().GetCompact();
+    }
+
+    for (unsigned int i = 1; BlockReading && BlockReading->nHeight > 0; i++) {
+        if (PastBlocksMax > 0 && i > PastBlocksMax) { break; }
+        CountBlocks++;
+
+        if(CountBlocks <= PastBlocksMin) {
+            if (CountBlocks == 1) { PastDifficultyAverage.SetCompact(BlockReading->nBits); }
+            else { PastDifficultyAverage = ((PastDifficultyAveragePrev * CountBlocks)+(CBigNum().SetCompact(BlockReading->nBits))) / (CountBlocks+1); }
+            PastDifficultyAveragePrev = PastDifficultyAverage;
+        }
+
+        if(LastBlockTime > 0){
+            int64_t Diff = (LastBlockTime - BlockReading->GetBlockTime());
+            nActualTimespan += Diff;
+        }
+        LastBlockTime = BlockReading->GetBlockTime();
+
+        if (BlockReading->pprev == NULL) { assert(BlockReading); break; }
+        BlockReading = BlockReading->pprev;
+    }
+
+    CBigNum bnNew(PastDifficultyAverage);
+
+    int64_t _nTargetTimespan = CountBlocks*nTargetSpacing;
+
+    if (nActualTimespan < _nTargetTimespan/3)
+        nActualTimespan = _nTargetTimespan/3;
+    if (nActualTimespan > _nTargetTimespan*3)
+        nActualTimespan = _nTargetTimespan*3;
+
+    // Retarget
+    bnNew *= nActualTimespan;
+    bnNew /= _nTargetTimespan;
+
+    if (bnNew > Params().ProofOfWorkLimit()){
+        bnNew = Params().ProofOfWorkLimit();
+    }
+    
+    return bnNew.GetCompact();
+}
+
+unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBlockHeader *pblock, uint64_t TargetBlocksSpacingSeconds, uint64_t PastBlocksMin, uint64_t PastBlocksMax) {
+        const CBlockIndex *BlockLastSolved = pindexLast;
+        const CBlockIndex *BlockReading = pindexLast;
+        const CBlockHeader *BlockCreating = pblock;// Limxdev add from old KGW
+        BlockCreating = BlockCreating; //Limxdev add from old KGW
+        uint64_t PastBlocksMass = 0;
+        int64_t PastRateActualSeconds = 0;
+        int64_t PastRateTargetSeconds = 0;
+        double PastRateAdjustmentRatio = double(1);
+        CBigNum PastDifficultyAverage;
+        CBigNum PastDifficultyAveragePrev;
+        double EventHorizonDeviation;
+        double EventHorizonDeviationFast;
+        double EventHorizonDeviationSlow;
+
+    if (BlockLastSolved == NULL || BlockLastSolved->nHeight == 0 || (uint64_t)BlockLastSolved->nHeight < PastBlocksMin) { return Params().ProofOfWorkLimit().GetCompact(); }
+	int64_t LatestBlockTime = BlockLastSolved->GetBlockTime();
+        for (unsigned int i = 1; BlockReading && BlockReading->nHeight > 0; i++) {
+                if (PastBlocksMax > 0 && i > PastBlocksMax) { break; }
+                PastBlocksMass++;
+
+                if (i == 1) { PastDifficultyAverage.SetCompact(BlockReading->nBits); }
+                else { PastDifficultyAverage = ((CBigNum().SetCompact(BlockReading->nBits) - PastDifficultyAveragePrev) / i) + PastDifficultyAveragePrev; }
+                PastDifficultyAveragePrev = PastDifficultyAverage;
+                 if (LatestBlockTime < BlockReading->GetBlockTime()) //Fix Limxdev
+                 {
+                 	LatestBlockTime = BlockReading->GetBlockTime();
+                 }
+
+                PastRateActualSeconds = LatestBlockTime - BlockReading->GetBlockTime(); //Fix Limxdev
+                PastRateTargetSeconds = TargetBlocksSpacingSeconds * PastBlocksMass;
+                PastRateAdjustmentRatio = double(1);
+                if (PastRateActualSeconds < 1) { PastRateActualSeconds = 1; } //Fix Limxdev new KGW
+                // else { if (PastRateActualSeconds < 0) { PastRateActualSeconds = 0; }; } //Fix Limxdev old KGW
+                if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
+                PastRateAdjustmentRatio = double(PastRateTargetSeconds) / double(PastRateActualSeconds);
+                }
+                EventHorizonDeviation = 1 + (0.7084 * pow((double(PastBlocksMass)/double(144)), -1.228)); // Fix Limxdev
+                EventHorizonDeviationFast = EventHorizonDeviation;
+                EventHorizonDeviationSlow = 1 / EventHorizonDeviation;
+
+                if (PastBlocksMass >= PastBlocksMin) {
+                        if ((PastRateAdjustmentRatio <= EventHorizonDeviationSlow) || (PastRateAdjustmentRatio >= EventHorizonDeviationFast)) { assert(BlockReading); break; }
+                }
+                if (BlockReading->pprev == NULL) { assert(BlockReading); break; }
+                BlockReading = BlockReading->pprev;
+        }
+
+        CBigNum bnNew(PastDifficultyAverage);
+        if (PastRateActualSeconds != 0 && PastRateTargetSeconds != 0) {
+                bnNew *= PastRateActualSeconds;
+                bnNew /= PastRateTargetSeconds;
+        }
+
+    if (bnNew > Params().ProofOfWorkLimit()) {
+        bnNew = Params().ProofOfWorkLimit();
+    }
+// Limxdev 22-05-2015
+   
+    if(fDebug){
+    printf("Difficulty Retarget - Kimoto Gravity Well\n");
+    printf("PastRateAdjustmentRatio = %g\n", PastRateAdjustmentRatio);
+    printf("Before: %08x  %s\n", BlockLastSolved->nBits, CBigNum().SetCompact(BlockLastSolved->nBits).getuint256().ToString().c_str());
+    printf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString().c_str());
+    }
+    
+    return bnNew.GetCompact();
+}
+
 unsigned int static GetNextWorkRequired_Delta(const CBlockIndex* pindexLast, const CBlockHeader *pblock, unsigned int nFirstDeltaBlock)
 {
     // These two variables are not used in the calculation at all, but only for logging when -debug is set, to prevent logging the same calculation repeatedly.
