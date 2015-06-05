@@ -155,7 +155,9 @@ unsigned int static GetNextWorkRequired_Delta(const CBlockIndex* pindexLast, con
     int64_t nRetargetTimespan      = nTargetSpacing;
 
     // The minimum difficulty that is allowed, this is set on a per algorithm basis.
-    const unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
+    //const unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
+    const unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
+
 
     // How many blocks to use to calculate each of the four algo specific time windows (last block; short window; middle window; long window)
     const unsigned int nLastBlock           =   1;
