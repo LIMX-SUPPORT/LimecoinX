@@ -35,7 +35,9 @@ enum DiffMode {
     DIFF_DEFAULT = 0, // Default to invalid 0
     DIFF_BTC     = 1, // Retarget every x blocks (Bitcoin style)
     DIFF_KGW     = 2, // Retarget using Kimoto Gravity Well
-    DIFF_DGW     = 3, // Retarget using Dark Gravity Wave v3
+    DIFF_KGW2    = 4,
+    DIFF_DELTA   = 5
+    DIFF_NULL    = 6// Retarget using Dark Gravity Wave v3
 };
 
 class CBlockIndex;
