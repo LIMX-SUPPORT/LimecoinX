@@ -34,7 +34,8 @@
 enum DiffMode {
     DIFF_DEFAULT = 0, // Default to invalid 0
     DIFF_BTC     = 1, // Retarget every x blocks (Bitcoin style)
-    DIFF_KGW     = 2, // Retarget using Kimoto Gravity Well
+    DIFF_KGW     = 2,
+    DIFF_KGW2    = 2,// Retarget using Kimoto Gravity Well
     DIFF_DGW     = 3,
     DIFF_DELTA   = 3,
     DIFF_NULL    = 0,// Retarget using Dark Gravity Wave v3
