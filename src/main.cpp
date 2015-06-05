@@ -1450,6 +1450,7 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue)
 }
 
 static const int64_t nTargetTimespan = 24 * 60 * 60; // LIMX 1 Day
+static const int64 nTargetTimespanNEW = 2.5 * 60; //Limx dev for Digi 05-06-2015
 static const int64_t nTargetSpacing = 5 * 60; // Limecoinx: 5 minutes   LIMX
 static const int64_t nInterval = nTargetTimespan / nTargetSpacing; // 288 Blocks
 
@@ -1604,8 +1605,92 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     return bnNew.GetCompact();
 }
 
+// Add Digishield Algo
+unsigned int static GetNextWorkRequired_DIGI(const CBlockIndex* pindexLast, const CBlockHeader *pblock){
+
+    unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
+    int nHeight = pindexLast->nHeight + 1;
+
+    int64_t retargetTimespan = nTargetTimespan;
+    int64_t retargetSpacing = nTargetSpacing;
+    int64_t retargetInterval = nInterval;
+
+    retargetInterval = nTargetTimespanNEW / nTargetSpacing;
+    retargetTimespan = nTargetTimespanNEW;
+
+    // Genesis block
+    if (pindexLast == NULL)
+        return nProofOfWorkLimit;
+
+    // Only change once per interval
+    if ((pindexLast->nHeight+1) % retargetInterval != 0)
+    {
+        // Special difficulty rule for testnet:
+        if (fTestNet)
+        {
+            // If the new block's timestamp is more than 2* nTargetSpacing minutes
+            // then allow mining of a min-difficulty block.
+            if (pblock->nTime > pindexLast->nTime + retargetSpacing*3)
+                return nProofOfWorkLimit;
+            else
+            {
+                // Return the last non-special-min-difficulty-rules-block
+                const CBlockIndex* pindex = pindexLast;
+                while (pindex->pprev && pindex->nHeight % retargetInterval != 0 && pindex->nBits == nProofOfWorkLimit)
+                    pindex = pindex->pprev;
+                return pindex->nBits;
+            }
+        }
+
+        return pindexLast->nBits;
+    }
+
+    // This fixes an issue where a 51% attack can change difficulty at will.
+    // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
+    int blockstogoback = retargetInterval-1;
+    if ((pindexLast->nHeight+1) != retargetInterval)
+        blockstogoback = retargetInterval;
+
+    // Go back by what we want to be 14 days worth of blocks
+    const CBlockIndex* pindexFirst = pindexLast;
+    for (int i = 0; pindexFirst && i < blockstogoback; i++)
+        pindexFirst = pindexFirst->pprev;
+    assert(pindexFirst);
+
+    // Limit adjustment step
+    int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
+    printf(" nActualTimespan = %"PRI64d" before bounds\n", nActualTimespan);
+
+    CBigNum bnNew;
+    bnNew.SetCompact(pindexLast->nBits);
+
+    //DigiShield implementation - thanks to RealSolid & WDC for this code
+    printf("DIGISHIELD RETARGET\n");
+    if (nActualTimespan < (retargetTimespan - (retargetTimespan/4)) ) nActualTimespan = (retargetTimespan - (retargetTimespan/4));
+    if (nActualTimespan > (retargetTimespan + (retargetTimespan/2)) ) nActualTimespan = (retargetTimespan + (retargetTimespan/2));
+    // Retarget
+
+    bnNew *= nActualTimespan;
+    bnNew /= retargetTimespan;
+
+    if (bnNew > bnProofOfWorkLimit)
+        bnNew = bnProofOfWorkLimit;
+
+    /// debug print
+    printf("GetNextWorkRequired RETARGET\n");
+    printf("nTargetTimespan = %"PRI64d" nActualTimespan = %"PRI64d"\n" , retargetTimespan, nActualTimespan);
+    printf("Before: %08x %s\n", pindexLast->nBits, CBigNum().SetCompact(pindexLast->nBits).getuint256().ToString().c_str());
+    printf("After: %08x %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString().c_str());
+
+    return bnNew.GetCompact();
+
+}
+// End Digi Algo
+
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
+	// For connect Digi
+	// return GetNextWorkRequired_DIGI(pindexLast, pblock);
         unsigned int retarget = DIFF_KGW;
 
         if (!TestNet()) {
