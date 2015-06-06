@@ -2781,7 +2781,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 					//return state.DoS(10, error("AcceptBlock() : prev block not found"), 0, "bad-prevblk");
 					pindexPrev = (*mi).second;
 					nHeight = pindexPrev->nHeight+1;
-					//LogPrintf("nHeight xxx = %d\n", nHeight);
+
 					////////////////////////// nheight Funktion Ende
                         foundPayee = true; //doesn't require a specific payee
                         foundPaymentAmount = true;
@@ -2793,10 +2793,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 						int64_t maxsumm2 = hardblockpowreward + masternodePaymentAmount;
 						if(hardblockpowreward >= 4000000000 && masternodePaymentAmount >= sollreward && blockpowreward > hardblockpowreward && maxsumm > maxsumm2) //write by Limxdev 02-06-2015
                             foundPaymentAndPayee = true;
-						//LogPrintf("Sollreward = %d\n", sollreward);
-						//LogPrintf("blockpowreward = %d\n", blockpowreward);
-						//LogPrintf("hardblockpowreward = %d\n", hardblockpowreward);
-						//LogPrintf("masternodePaymentAmount = %d\n", masternodePaymentAmount);
+
                         LogPrintf("## Limx proof of payment ## CheckBlock() : Using non-specific masternode payments %d\n", chainActive.Tip()->nHeight+1);
 						} else
 							{
