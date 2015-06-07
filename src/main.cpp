@@ -1478,7 +1478,7 @@ unsigned int ComputeMinWork(unsigned int nBase, int64_t nTime)
         bnResult = bnLimit;
     return bnResult.GetCompact();
 }
-unsigned int bnProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
+//unsigned int bnProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
 #include "diff_limx.h"
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
@@ -1492,11 +1492,13 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 		else if (pindexLast->nHeight + 1 >= 34140) { retarget = DIFF_DGW; }
 		 else if (pindexLast->nHeight + 1 >= 15200) { retarget = DIFF_KGW; }
 		else retarget = DIFF_BTC;
-        } else {
-		if (pindexLast->nHeight + 1 >= 30) {return GetNextWorkRequired_Delta(pindexLast, pblock, nDeltaSwitchover); LogPrintf("Delta Testnet"); } 
-		else if (pindexLast->nHeight + 1 >= 20) { retarget = DIFF_KGW; LogPrintf("KGW Testnet"); } 
-        	else if (pindexLast->nHeight + 1 >= 10) { retarget = DIFF_DGW; LogPrintf("DGW Testnet"); }
-        	else { retarget = DIFF_BTC;}
+        } 
+        if (TestNet()){
+	nDeltaSwitchover = 100;
+	if (pindexLast->nHeight + 1 >= 100) {return GetNextWorkRequired_Delta(pindexLast, pblock, nDeltaSwitchover); LogPrintf("Delta Testnet"); } 
+	else if (pindexLast->nHeight + 1 >= 20) { retarget = DIFF_KGW; LogPrintf("KGW Testnet"); } 
+        else if (pindexLast->nHeight + 1 >= 10) { retarget = DIFF_DGW; LogPrintf("DGW Testnet"); }
+        else{ retarget = DIFF_BTC;}
         }
         
         // Default Bitcoin style retargeting
