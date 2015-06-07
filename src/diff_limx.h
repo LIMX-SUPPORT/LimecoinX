@@ -424,8 +424,8 @@ unsigned int static GetNextWorkRequired_Delta(const CBlockIndex* pindexLast, con
 
     
     // Exception 3 - Difficulty should never go below (human view) the starting difficulty, so if it has we force it back to the limit.
-    if (bnNew > bnProofOfWorkLimit)
-        bnNew = bnProofOfWorkLimit;
+    if (bnNew > Params().ProofOfWorkLimit())
+        bnNew = Params().ProofOfWorkLimit();  //bnProofOfWorkLimit
 
     
     if (fDebug)
