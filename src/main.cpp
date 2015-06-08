@@ -1483,7 +1483,7 @@ unsigned int ComputeMinWork(unsigned int nBase, int64_t nTime)
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
         unsigned int retarget = DIFF_NULL;
-        static int nDeltaSwitchover = 101000;
+        static int nDeltaSwitchover = 100000;
 
         if (!TestNet()) {
         if (pindexLast->nHeight + 1 >= 101000) { retarget = DIFF_DELTA; if (pindexLast->nHeight < 102000) LogPrintf("Delta Diff"); }
