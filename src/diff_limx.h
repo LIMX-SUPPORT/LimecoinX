@@ -409,10 +409,10 @@ unsigned int static GetNextWorkRequired_Delta(const CBlockIndex* pindexLast, con
 
     
     // Exception 2 - Reduce difficulty if current block generation time has already exceeded maximum time limit. (NB! nLongTimeLimit must exceed maximum possible drift in both positive and negative direction)
-    if ((pblock-> block.nTime - pindexLast->GetBlockTime()) > nLongTimeLimit)
+    if ((pblock-> nTime - pindexLast->GetBlockTime()) > nLongTimeLimit)  //block.nTime 
     {
         // Reduce in a linear fashion at first, and then start to ramp up with a gradual exponential curve (to catch massive hash extinction events)
-        int64_t nNumMissedSteps = ((pblock-> block.nTime - pindexLast->GetBlockTime()) / nLongTimeStep);
+        int64_t nNumMissedSteps = ((pblock-> nTime - pindexLast->GetBlockTime()) / nLongTimeStep);
         if (nNumMissedSteps <= 12)
             bnNew *=  nNumMissedSteps;
         else
