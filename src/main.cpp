@@ -1495,7 +1495,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         } 
         if (TestNet()){
 	nDeltaSwitchover = 100;
-	if (pindexLast->nHeight + 1 >= 100) {return GetNextWorkRequired_Delta(pindexLast, pblock, nDeltaSwitchover); LogPrintf("Delta Testnet"); } 
+	if (pindexLast->nHeight + 1 >= 100) { return GetNextWorkRequired_Delta(pindexLast, pblock, nDeltaSwitchover); LogPrintf("Delta Testnet"); } 
 	else if (pindexLast->nHeight + 1 >= 20) { retarget = DIFF_KGW; LogPrintf("KGW Testnet"); } 
         else if (pindexLast->nHeight + 1 >= 10) { retarget = DIFF_DGW; LogPrintf("DGW Testnet"); }
         else{ retarget = DIFF_BTC;}
