@@ -152,7 +152,7 @@ unsigned int static GetNextWorkRequired_Delta(const CBlockIndex* pindexLast, con
     std::string sLogInfo;
 
     // The spacing we want our blocks to come in at.
-    int64_t nRetargetTimespan      = nTargetSpacing;
+    int64_t nRetargetTimespan = nTargetSpacing;
 
     // The minimum difficulty that is allowed, this is set on a per algorithm basis.
     //const unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
@@ -229,11 +229,11 @@ unsigned int static GetNextWorkRequired_Delta(const CBlockIndex* pindexLast, con
 
     // Genesis block
     if (pindexLast == NULL)
-        return nProofOfWorkLimit;
+        return Params().ProofOfWorkLimit().GetCompact();//return nProofOfWorkLimit;
 
     // -- Use a fixed difficuly until we have enough blocks to work with (multi algo - this is calculated on a per algo basis)
     if (pindexLast->nHeight <= nQBFrame)
-        return nProofOfWorkLimit;
+        return Params().ProofOfWorkLimit().GetCompact();//return nProofOfWorkLimit; 
 
     // -- Calculate timespan for last block window (multi algo - this is calculated on a per algo basis)
     pindexFirst = pindexLast->pprev;
