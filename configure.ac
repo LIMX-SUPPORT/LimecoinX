@@ -62,15 +62,16 @@ AC_ARG_ENABLE([upnp-default],
   [use_upnp_default=$enableval],
   [use_upnp_default=yes])
 
-AC_ARG_ENABLE(tests,
-    AS_HELP_STRING([--enable-tests],[compile tests (default is no)]),
-    [use_tests=$enableval],
-    [use_tests=no])
-
+# Limxdev Enable test 15-06-2015
 # AC_ARG_ENABLE(tests,
-#    AS_HELP_STRING([--enable-tests],[compile tests (default is yes)]),
-#   [use_tests=$enableval],
-#    [use_tests=yes])
+#    AS_HELP_STRING([--enable-tests],[compile tests (default is no)]),
+#    [use_tests=$enableval],
+#    [use_tests=no])
+
+AC_ARG_ENABLE(tests,
+  AS_HELP_STRING([--enable-tests],[compile tests (default is yes)]),
+  [use_tests=$enableval],
+  [use_tests=yes])
 
 AC_ARG_WITH([comparison-tool],
     AS_HELP_STRING([--with-comparison-tool],[path to java comparison tool (requires --enable-tests)]),
