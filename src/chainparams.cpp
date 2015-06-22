@@ -38,7 +38,10 @@ public:
         pchMessageStart[1] = 0xd5;    ///limxdev 04-2015
         pchMessageStart[2] = 0xc2;    //limxdev 04-2015
         pchMessageStart[3] = 0xf9;    //limxdev 04-2015
-         // //limxdev 04-2015   janin.currency.createCurrency ("LimecoinX",   0x66, 0xE6, "6",    "p"    , ""),
+        
+  //    name, networkVersion, privateKeyPrefix, WIF_Start, CWIF_Start, donate
+  // ("LimecoinX",  0x66, 0xcc, "7",    "X"    , "  ")
+  
         vAlertPubKey = ParseHex("048240a8748a80a286b270ba126705ced4f2ce5a7847b3610ea3c06513150dade2a8512ed5ea86320824683fc0818f0ac019214973e677acd1244f6d0571fc5103"); //limxdev 04-2015   ist bei allen gleich
         nDefaultPort = 8886;
         nRPCPort = 8800;
