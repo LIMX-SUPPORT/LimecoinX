@@ -1486,7 +1486,8 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         static int nDeltaSwitchover = TestNet ? 90 : 100000;
 
         if (!TestNet()) {
-        if (pindexLast->nHeight + 1 >= 101000) { retarget = DIFF_DELTA; if (pindexLast->nHeight < 102000) LogPrintf("Delta Diff"); }
+        	if (pindexLast->nHeight + 1 >= 102000) { retarget = DIFF_KGW2; if (pindexLast->nHeight < 102000) LogPrintf("KGW2N"); }
+        	else if (pindexLast->nHeight + 1 >= 101000) { retarget = DIFF_DELTA; if (pindexLast->nHeight < 109999) LogPrintf("Delta Diff"); }
 		else if (pindexLast->nHeight + 1 >= 99500) { retarget = DIFF_KGW2; if (pindexLast->nHeight < 99999) LogPrintf("KGW2");}
 		else if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; }
 		else if (pindexLast->nHeight + 1 >= 34140) { retarget = DIFF_DGW; }
@@ -1494,7 +1495,8 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 		else retarget = DIFF_BTC;
         } 
         if (TestNet()){
-		if (pindexLast->nHeight + 1 >= 100) { retarget = DIFF_DELTA; } 
+        	if (pindexLast->nHeight + 1 >= 500) { retarget = DIFF_KGW2; } 
+		else if (pindexLast->nHeight + 1 >= 100) { retarget = DIFF_DELTA; } 
 		else if (pindexLast->nHeight + 1 >= 20) { retarget = DIFF_KGW; LogPrintf("KGW Testnet"); } 
         else if (pindexLast->nHeight + 1 >= 10) { retarget = DIFF_DGW; LogPrintf("DGW Testnet"); }
         else{ retarget = DIFF_BTC;}
