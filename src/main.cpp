@@ -6,7 +6,7 @@
 
 #include "main.h"
 
-#include "addrman.h"
+#include "addrman.h"1
 #include "alert.h"
 #include "chainparams.h"
 #include "checkpoints.h"
@@ -1486,8 +1486,9 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         static int nDeltaSwitchover = TestNet ? 90 : 100000;
 
         if (!TestNet()) {
-        	if (pindexLast->nHeight + 1 >= 102000) { retarget = DIFF_KGW2; if (pindexLast->nHeight < 102000) LogPrintf("KGW2N"); }
-        	else if (pindexLast->nHeight + 1 >= 101000) { retarget = DIFF_DELTA; if (pindexLast->nHeight < 109999) LogPrintf("Delta Diff"); }
+        	//if (pindexLast->nHeight + 1 >= 102000) { retarget = DIFF_KGW2; if (pindexLast->nHeight < 102000) LogPrintf("KGW2N"); }
+        	//else
+        	if (pindexLast->nHeight + 1 >= 101000) { retarget = DIFF_DELTA; if (pindexLast->nHeight < 109999) LogPrintf("Delta Diff"); }
 		else if (pindexLast->nHeight + 1 >= 99500) { retarget = DIFF_KGW2; if (pindexLast->nHeight < 99999) LogPrintf("KGW2");}
 		else if (pindexLast->nHeight + 1 >= 95000) { retarget = DIFF_KGW; }
 		else if (pindexLast->nHeight + 1 >= 34140) { retarget = DIFF_DGW; }
