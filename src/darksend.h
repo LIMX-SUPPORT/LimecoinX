@@ -396,10 +396,11 @@ public:
     // Set the 'state' value, with some logging and capturing when the state changed
     void UpdateState(unsigned int newState)
     {
-        if (fMasterNode && (newState == POOL_STATUS_ERROR || newState == POOL_STATUS_SUCCESS)){
-            LogPrintf("CDarksendPool::UpdateState() - Can't set state to ERROR or SUCCESS as a Masternode. \n");
+       if (fMasterNode && (newState == POOL_STATUS_ERROR || newState == POOL_STATUS_SUCCESS)){
+           // LogPrintf("CDarksendPool::UpdateState() - Can't set state to ERROR or SUCCESS as a Masternode. \n");
             return;
         }
+    
 
         LogPrintf("CDarksendPool::UpdateState() == %d | %d \n", state, newState);
         if(state != newState){
