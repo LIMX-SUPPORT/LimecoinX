@@ -12,7 +12,7 @@
 #define CLIENT_VERSION_MAJOR       0
 #define CLIENT_VERSION_MINOR       11
 #define CLIENT_VERSION_REVISION    2
-#define CLIENT_VERSION_BUILD       31
+#define CLIENT_VERSION_BUILD       32
 // limxfork darkcoin 11.2.17
 
 
