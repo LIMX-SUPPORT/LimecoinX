@@ -6,7 +6,7 @@
 
 #include "main.h"
 
-#include "addrman.h"1
+#include "addrman.h"
 #include "alert.h"
 #include "chainparams.h"
 #include "checkpoints.h"
