@@ -2792,9 +2792,9 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 						//Limxdev 31-05-2015 Limx proof of payment
 						int64_t sollreward = 1000000000;
 						int64_t blockpowreward = 4900000000;// + nFees; later
-						int64_t maxsumm = 5900000000;// + nFees; later
+						int64_t maxsumm = 10000000000;// + nFees; later
 						int64_t maxsumm2 = hardblockpowreward + masternodePaymentAmount;
-						if(hardblockpowreward >= 4000000000 && masternodePaymentAmount >= sollreward && blockpowreward > hardblockpowreward && maxsumm > maxsumm2) //write by Limxdev 02-06-2015
+						if(masternodePaymentAmount >= sollreward && blockpowreward > hardblockpowreward && maxsumm > maxsumm2) //write by Limxdev 02-06-2015
                             foundPaymentAndPayee = true;
 
                         LogPrintf("## Limx proof of payment ## CheckBlock() : Using non-specific masternode payments %d\n", chainActive.Tip()->nHeight+1);
