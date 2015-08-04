@@ -229,11 +229,13 @@ public:
             if(nScanningErrorCount < 0) nScanningErrorCount = 0;
         } else { //all other codes are equally as bad
             nScanningErrorCount++;
+            /* Limxdev 04/08/2015 
                         if(nScanningErrorCount >= 4)
                         {
                         nScanningErrorCount = 0;
                         LogPrintf("S-Reset Bad Masternodescore \n"); //	Limxdev Set this for Debug
                         }
+            */
             if(nScanningErrorCount > MASTERNODE_SCANNING_ERROR_THESHOLD*2) nScanningErrorCount = MASTERNODE_SCANNING_ERROR_THESHOLD*2;
         }
     }
